@@ -1,0 +1,45 @@
+{
+  "name": "Feedback",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the person giving feedback"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "general",
+        "bug",
+        "feature_request",
+        "improvement",
+        "other"
+      ],
+      "default": "general"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating from 1 to 5"
+    },
+    "message": {
+      "type": "string",
+      "description": "Feedback message"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewed",
+        "resolved"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

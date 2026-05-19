@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
-import { LayoutDashboard, ClipboardCheck, Menu, X, Shield } from "lucide-react";
+import { LayoutDashboard, ClipboardCheck, Menu, X, Shield, MessageSquare } from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
   { name: "Checklist", icon: ClipboardCheck, page: "Checklist" },
+  { name: "Feedback", icon: MessageSquare, page: "Feedback" },
 ];
 
 export default function Layout({ children, currentPageName }) {
