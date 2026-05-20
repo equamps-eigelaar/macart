@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
+import { Search, Filter, ChevronDown, ChevronRight, Loader2, LayoutList, Kanban } from "lucide-react";
 import RequirementRow from "../components/compliance/RequirementRow";
+import KanbanBoard from "../components/compliance/KanbanBoard";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SECTIONS = {
@@ -29,6 +30,7 @@ export default function Checklist() {
   const [sectionFilter, setSectionFilter] = useState(initialSection);
   const [expandedSections, setExpandedSections] = useState(new Set(Object.keys(SECTIONS)));
   const [initializing, setInitializing] = useState(false);
+  const [viewMode, setViewMode] = useState("list");
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["compliance-items"],
@@ -112,10 +114,30 @@ export default function Checklist() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Compliance Checklist</h1>
-        <p className="text-slate-500 mt-1">{filteredItems.length} of {items.length} requirements shown</p>
+    <div className={`${viewMode === "kanban" ? "max-w-full" : "max-w-5xl mx-auto"} space-y-6`}>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Compliance Checklist</h1>
+          <p className="text-slate-500 mt-1">{filteredItems.length} of {items.length} requirements shown</p>
+        </div>
+        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1">
+          <button
+            onClick={() => setViewMode("list")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === "list" ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            <LayoutList className="w-4 h-4" /> List
+          </button>
+          <button
+            onClick={() => setViewMode("kanban")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === "kanban" ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            <Kanban className="w-4 h-4" /> Kanban
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -157,8 +179,13 @@ export default function Checklist() {
         </Select>
       </div>
 
+      {/* Kanban View */}
+      {viewMode === "kanban" && (
+        <KanbanBoard items={filteredItems} onUpdate={handleRefresh} />
+      )}
+
       {/* Grouped Requirements */}
-      <div className="space-y-4">
+      {viewMode === "list" && <div className="space-y-4">
         {Object.entries(groupedItems)
           .sort(([a], [b]) => Number(a) - Number(b))
           .map(([section, group]) => {
@@ -205,7 +232,7 @@ export default function Checklist() {
               </div>
             );
           })}
-      </div>
+      </div>}
     </div>
   );
 }
