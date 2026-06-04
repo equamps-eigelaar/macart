@@ -1,0 +1,67 @@
+{
+  "name": "Calibration",
+  "type": "object",
+  "description": "Measuring instrument register and calibration record",
+  "properties": {
+    "instrument_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Instrument name e.g. BCT press, ECT fixture, densitometer"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "bct_press",
+        "ect_fixture",
+        "caliper_gauge",
+        "densitometer",
+        "barcode_verifier",
+        "scale",
+        "thermometer",
+        "other"
+      ]
+    },
+    "serial_no": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "calibration_due": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_calibrated": {
+      "type": "string",
+      "format": "date"
+    },
+    "calibrated_by": {
+      "type": "string",
+      "description": "Lab or person who calibrated"
+    },
+    "certificate_ref": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_service",
+        "out_for_calibration",
+        "out_of_service",
+        "scrapped"
+      ],
+      "default": "in_service"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "instrument_id",
+    "name",
+    "type",
+    "calibration_due"
+  ]
+}

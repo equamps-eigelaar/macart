@@ -1,0 +1,63 @@
+{
+  "name": "RMInspection",
+  "type": "object",
+  "properties": {
+    "rm_batch_id": {
+      "type": "string"
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "inspector": {
+      "type": "string"
+    },
+    "ect_result": {
+      "type": "number"
+    },
+    "ect_spec_min": {
+      "type": "number"
+    },
+    "caliper_result": {
+      "type": "number"
+    },
+    "caliper_spec_min": {
+      "type": "number"
+    },
+    "caliper_spec_max": {
+      "type": "number"
+    },
+    "grammage_result": {
+      "type": "number"
+    },
+    "grammage_spec_min": {
+      "type": "number"
+    },
+    "grammage_spec_max": {
+      "type": "number"
+    },
+    "visual_ok": {
+      "type": "boolean",
+      "default": true
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "ncr_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rm_batch_id",
+    "inspection_date",
+    "inspector",
+    "result"
+  ]
+}

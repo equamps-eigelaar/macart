@@ -1,0 +1,72 @@
+{
+  "name": "CAPA",
+  "type": "object",
+  "properties": {
+    "capa_number": {
+      "type": "string"
+    },
+    "ncr_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "corrective",
+        "preventive"
+      ]
+    },
+    "root_cause_method": {
+      "type": "string",
+      "enum": [
+        "5_why",
+        "fishbone",
+        "fault_tree",
+        "other"
+      ]
+    },
+    "root_cause_description": {
+      "type": "string"
+    },
+    "action_description": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "verify",
+        "closed",
+        "overdue"
+      ],
+      "default": "open"
+    },
+    "verification_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "verified_by": {
+      "type": "string"
+    },
+    "effectiveness_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "capa_number",
+    "title",
+    "type",
+    "owner",
+    "due_date"
+  ]
+}

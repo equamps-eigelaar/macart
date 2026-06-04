@@ -1,0 +1,78 @@
+{
+  "name": "Training",
+  "type": "object",
+  "description": "Competence and training record \u2014 ISO 9001/45001 clause 7.2",
+  "properties": {
+    "employee_name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "training_topic": {
+      "type": "string"
+    },
+    "standard_ref": {
+      "type": "string",
+      "enum": [
+        "ISO9001",
+        "ISO14001",
+        "ISO45001",
+        "process",
+        "equipment",
+        "induction",
+        "other"
+      ]
+    },
+    "station_competency": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "all",
+        "N/A"
+      ]
+    },
+    "training_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "trained_by": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "on_the_job",
+        "classroom",
+        "e_learning",
+        "toolbox_talk",
+        "external"
+      ]
+    },
+    "assessment_pass": {
+      "type": "boolean"
+    },
+    "certificate_ref": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "employee_name",
+    "role",
+    "training_topic",
+    "training_date"
+  ]
+}

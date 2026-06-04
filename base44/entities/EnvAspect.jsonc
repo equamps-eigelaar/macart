@@ -1,0 +1,50 @@
+{
+  "name": "EnvAspect",
+  "type": "object",
+  "properties": {
+    "aspect_id": {
+      "type": "string"
+    },
+    "activity": {
+      "type": "string"
+    },
+    "aspect": {
+      "type": "string"
+    },
+    "impact": {
+      "type": "string"
+    },
+    "significance_score": {
+      "type": "number"
+    },
+    "is_significant": {
+      "type": "boolean",
+      "default": false
+    },
+    "controls": {
+      "type": "string"
+    },
+    "legal_requirement": {
+      "type": "string"
+    },
+    "env_objective_id": {
+      "type": "string"
+    },
+    "compliance_obligation_id": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "aspect_id",
+    "activity",
+    "aspect",
+    "impact"
+  ]
+}

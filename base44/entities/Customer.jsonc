@@ -1,0 +1,45 @@
+{
+  "name": "Customer",
+  "type": "object",
+  "properties": {
+    "customer_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "default": "active"
+    },
+    "credit_limit": {
+      "type": "number"
+    },
+    "payment_terms": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "customer_code",
+    "name"
+  ]
+}

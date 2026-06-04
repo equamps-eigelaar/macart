@@ -1,0 +1,59 @@
+{
+  "name": "RMBatch",
+  "type": "object",
+  "properties": {
+    "batch_id": {
+      "type": "string"
+    },
+    "raw_material_id": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "supplier_lot_ref": {
+      "type": "string"
+    },
+    "received_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "qty_received": {
+      "type": "number"
+    },
+    "qty_remaining": {
+      "type": "number"
+    },
+    "unit": {
+      "type": "string",
+      "default": "sheets"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "quarantine",
+        "released",
+        "hold",
+        "consumed",
+        "rejected"
+      ],
+      "default": "quarantine"
+    },
+    "inspection_id": {
+      "type": "string"
+    },
+    "storage_location": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "batch_id",
+    "raw_material_id",
+    "supplier_id",
+    "received_date",
+    "qty_received"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "BOMLine",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string"
+    },
+    "raw_material_id": {
+      "type": "string"
+    },
+    "qty_per_unit": {
+      "type": "number",
+      "description": "Quantity of RM per unit of finished product"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "scrap_factor": {
+      "type": "number",
+      "default": 1.05,
+      "description": "Multiplier for scrap allowance"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_id",
+    "raw_material_id",
+    "qty_per_unit"
+  ]
+}

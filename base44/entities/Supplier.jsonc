@@ -1,0 +1,58 @@
+{
+  "name": "Supplier",
+  "type": "object",
+  "properties": {
+    "supplier_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "conditional",
+        "suspended",
+        "removed"
+      ],
+      "default": "pending"
+    },
+    "approval_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "performance_rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "supplier_code",
+    "name",
+    "approval_status"
+  ]
+}

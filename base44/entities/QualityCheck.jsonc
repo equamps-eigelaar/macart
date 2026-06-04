@@ -1,0 +1,72 @@
+{
+  "name": "QualityCheck",
+  "type": "object",
+  "properties": {
+    "work_order_id": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand"
+      ]
+    },
+    "check_type": {
+      "type": "string",
+      "enum": [
+        "ect",
+        "caliper",
+        "grammage",
+        "dimension",
+        "visual",
+        "other"
+      ]
+    },
+    "check_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "inspector": {
+      "type": "string"
+    },
+    "instrument_id": {
+      "type": "string"
+    },
+    "spec_min": {
+      "type": "number"
+    },
+    "spec_max": {
+      "type": "number"
+    },
+    "measured_value": {
+      "type": "number"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "ncr_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "work_order_id",
+    "station",
+    "check_type",
+    "check_date",
+    "measured_value",
+    "result"
+  ]
+}

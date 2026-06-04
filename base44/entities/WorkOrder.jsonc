@@ -1,0 +1,69 @@
+{
+  "name": "WorkOrder",
+  "type": "object",
+  "properties": {
+    "wo_number": {
+      "type": "string"
+    },
+    "order_line_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "qty_planned": {
+      "type": "number"
+    },
+    "qty_produced": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "released",
+        "in_progress",
+        "complete",
+        "on_hold",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "planned_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "planned_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "station_route": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of stations"
+    },
+    "fg_batch_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "wo_number",
+    "product_id",
+    "qty_planned",
+    "planned_start"
+  ]
+}

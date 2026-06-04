@@ -1,0 +1,43 @@
+{
+  "name": "CalibrationEvent",
+  "type": "object",
+  "properties": {
+    "instrument_id": {
+      "type": "string"
+    },
+    "calibration_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "performed_by": {
+      "type": "string"
+    },
+    "calibrated_by_external": {
+      "type": "boolean",
+      "default": false
+    },
+    "certificate_ref": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "adjusted_pass"
+      ]
+    },
+    "next_due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "instrument_id",
+    "calibration_date",
+    "result"
+  ]
+}

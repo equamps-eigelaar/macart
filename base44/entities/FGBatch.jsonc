@@ -1,0 +1,53 @@
+{
+  "name": "FGBatch",
+  "type": "object",
+  "properties": {
+    "batch_id": {
+      "type": "string"
+    },
+    "work_order_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "qty_produced": {
+      "type": "number"
+    },
+    "qty_available": {
+      "type": "number"
+    },
+    "production_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "quarantine",
+        "released",
+        "hold",
+        "dispatched",
+        "rejected"
+      ],
+      "default": "quarantine"
+    },
+    "rm_batch_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "RM batches consumed"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "batch_id",
+    "work_order_id",
+    "product_id",
+    "qty_produced",
+    "production_date"
+  ]
+}

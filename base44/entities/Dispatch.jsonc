@@ -1,0 +1,53 @@
+{
+  "name": "Dispatch",
+  "type": "object",
+  "properties": {
+    "dispatch_number": {
+      "type": "string"
+    },
+    "customer_order_id": {
+      "type": "string"
+    },
+    "order_line_id": {
+      "type": "string"
+    },
+    "fg_batch_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dispatch_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "qty_dispatched": {
+      "type": "number"
+    },
+    "carrier": {
+      "type": "string"
+    },
+    "tracking_ref": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "dispatched",
+        "delivered",
+        "returned"
+      ],
+      "default": "planned"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "dispatch_number",
+    "customer_order_id",
+    "dispatch_date",
+    "qty_dispatched"
+  ]
+}

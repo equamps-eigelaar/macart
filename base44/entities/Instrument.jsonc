@@ -1,0 +1,57 @@
+{
+  "name": "Instrument",
+  "type": "object",
+  "properties": {
+    "instrument_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "manufacturer": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "serial_number": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "calibration_frequency_days": {
+      "type": "number",
+      "default": 365
+    },
+    "last_calibration_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "next_calibration_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_service",
+        "out_of_service",
+        "calibrating",
+        "retired"
+      ],
+      "default": "in_service"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "instrument_id",
+    "name",
+    "type"
+  ]
+}

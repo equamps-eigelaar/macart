@@ -1,0 +1,59 @@
+{
+  "name": "ComplianceItem",
+  "type": "object",
+  "properties": {
+    "clause_ref": {
+      "type": "string"
+    },
+    "standard": {
+      "type": "string",
+      "enum": [
+        "ISO9001",
+        "ISO14001",
+        "ISO45001"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "compliant",
+        "partial",
+        "non_compliant",
+        "not_applicable"
+      ],
+      "default": "partial"
+    },
+    "evidence": {
+      "type": "string"
+    },
+    "evidence_url": {
+      "type": "string"
+    },
+    "responsible": {
+      "type": "string"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "clause_ref",
+    "standard",
+    "title",
+    "status"
+  ]
+}

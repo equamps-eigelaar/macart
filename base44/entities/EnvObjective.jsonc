@@ -1,0 +1,56 @@
+{
+  "name": "EnvObjective",
+  "type": "object",
+  "properties": {
+    "objective_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "target_value": {
+      "type": "number"
+    },
+    "current_value": {
+      "type": "number"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "target_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "on_track",
+        "at_risk",
+        "behind",
+        "achieved"
+      ],
+      "default": "on_track"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "measurement_frequency": {
+      "type": "string",
+      "enum": [
+        "weekly",
+        "monthly",
+        "quarterly",
+        "annually"
+      ]
+    }
+  },
+  "required": [
+    "objective_id",
+    "title",
+    "target_value",
+    "target_date"
+  ]
+}

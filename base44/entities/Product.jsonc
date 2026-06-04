@@ -1,0 +1,66 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "product_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "box",
+        "divider",
+        "pad",
+        "sheet",
+        "other"
+      ]
+    },
+    "length_mm": {
+      "type": "number"
+    },
+    "width_mm": {
+      "type": "number"
+    },
+    "height_mm": {
+      "type": "number"
+    },
+    "flute_profile": {
+      "type": "string"
+    },
+    "print_type": {
+      "type": "string",
+      "enum": [
+        "none",
+        "flexo_1c",
+        "flexo_2c",
+        "flexo_4c"
+      ]
+    },
+    "station_route": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "development"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "product_code",
+    "name",
+    "type"
+  ]
+}

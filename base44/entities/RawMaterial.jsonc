@@ -1,0 +1,65 @@
+{
+  "name": "RawMaterial",
+  "type": "object",
+  "properties": {
+    "rm_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "flute_profile": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "E",
+        "F",
+        "BC",
+        "EB",
+        "N/A"
+      ]
+    },
+    "ect_spec_min": {
+      "type": "number",
+      "description": "Edge crush test minimum kN/m"
+    },
+    "caliper_spec_min": {
+      "type": "number",
+      "description": "mm"
+    },
+    "caliper_spec_max": {
+      "type": "number",
+      "description": "mm"
+    },
+    "grammage_spec_min": {
+      "type": "number",
+      "description": "g/m2"
+    },
+    "grammage_spec_max": {
+      "type": "number",
+      "description": "g/m2"
+    },
+    "unit": {
+      "type": "string",
+      "default": "sheets"
+    },
+    "preferred_supplier_id": {
+      "type": "string"
+    },
+    "lead_time_days": {
+      "type": "number"
+    },
+    "reorder_point": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "rm_code",
+    "name"
+  ]
+}

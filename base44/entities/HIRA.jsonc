@@ -1,0 +1,81 @@
+{
+  "name": "HIRA",
+  "type": "object",
+  "properties": {
+    "hira_id": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "warehouse",
+        "office",
+        "general"
+      ]
+    },
+    "hazard_description": {
+      "type": "string"
+    },
+    "potential_harm": {
+      "type": "string"
+    },
+    "likelihood_before": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "severity_before": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "risk_score_before": {
+      "type": "number"
+    },
+    "controls": {
+      "type": "string"
+    },
+    "likelihood_after": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "severity_after": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "risk_score_after": {
+      "type": "number"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "responsible": {
+      "type": "string"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "hira_id",
+    "station",
+    "hazard_description",
+    "potential_harm"
+  ]
+}

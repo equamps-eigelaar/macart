@@ -1,0 +1,63 @@
+{
+  "name": "TrainingRecord",
+  "type": "object",
+  "properties": {
+    "employee_name": {
+      "type": "string"
+    },
+    "employee_id": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "warehouse",
+        "office",
+        "general"
+      ]
+    },
+    "competency": {
+      "type": "string"
+    },
+    "training_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "trainer": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "current",
+        "expiring_soon",
+        "expired",
+        "not_trained"
+      ],
+      "default": "current"
+    },
+    "certificate_ref": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "employee_name",
+    "station",
+    "competency",
+    "training_date"
+  ]
+}

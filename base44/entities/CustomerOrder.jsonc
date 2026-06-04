@@ -1,0 +1,43 @@
+{
+  "name": "CustomerOrder",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string"
+    },
+    "customer_id": {
+      "type": "string"
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "required_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "confirmed",
+        "in_production",
+        "dispatched",
+        "complete",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "total_value": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "order_number",
+    "customer_id",
+    "order_date"
+  ]
+}

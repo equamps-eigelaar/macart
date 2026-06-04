@@ -1,0 +1,52 @@
+{
+  "name": "OrderLine",
+  "type": "object",
+  "properties": {
+    "customer_order_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "qty_ordered": {
+      "type": "number"
+    },
+    "qty_dispatched": {
+      "type": "number",
+      "default": 0
+    },
+    "promised_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_dispatch_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "on_time": {
+      "type": "boolean"
+    },
+    "in_full": {
+      "type": "boolean"
+    },
+    "otif": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "partial",
+        "complete",
+        "cancelled"
+      ],
+      "default": "open"
+    }
+  },
+  "required": [
+    "customer_order_id",
+    "product_id",
+    "qty_ordered",
+    "promised_date"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "ComplianceObligation",
+  "type": "object",
+  "properties": {
+    "obligation_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "permit",
+        "licence",
+        "regulation",
+        "legal",
+        "voluntary"
+      ]
+    },
+    "issuing_authority": {
+      "type": "string"
+    },
+    "reference_number": {
+      "type": "string"
+    },
+    "issue_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "expired",
+        "pending_renewal",
+        "cancelled"
+      ],
+      "default": "active"
+    },
+    "responsible": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "obligation_id",
+    "title",
+    "type"
+  ]
+}

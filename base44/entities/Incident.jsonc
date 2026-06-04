@@ -1,0 +1,79 @@
+{
+  "name": "Incident",
+  "type": "object",
+  "properties": {
+    "incident_number": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "injury",
+        "near_miss",
+        "property_damage",
+        "environmental",
+        "other"
+      ]
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "warehouse",
+        "office",
+        "general"
+      ]
+    },
+    "incident_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string"
+    },
+    "injured_person": {
+      "type": "string"
+    },
+    "body_part": {
+      "type": "string"
+    },
+    "lost_time_days": {
+      "type": "number",
+      "default": 0
+    },
+    "hira_id": {
+      "type": "string"
+    },
+    "capa_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "reported",
+        "investigating",
+        "closed"
+      ],
+      "default": "reported"
+    },
+    "reported_by": {
+      "type": "string"
+    },
+    "investigated_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "incident_number",
+    "type",
+    "station",
+    "incident_date",
+    "description"
+  ]
+}

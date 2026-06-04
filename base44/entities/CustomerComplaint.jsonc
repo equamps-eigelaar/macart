@@ -1,0 +1,62 @@
+{
+  "name": "CustomerComplaint",
+  "type": "object",
+  "properties": {
+    "complaint_number": {
+      "type": "string"
+    },
+    "customer_id": {
+      "type": "string"
+    },
+    "fg_batch_id": {
+      "type": "string"
+    },
+    "dispatch_id": {
+      "type": "string"
+    },
+    "ncr_id": {
+      "type": "string"
+    },
+    "received_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "description": {
+      "type": "string"
+    },
+    "complaint_type": {
+      "type": "string",
+      "enum": [
+        "dimensional",
+        "structural",
+        "print_quality",
+        "quantity",
+        "delivery",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "investigating",
+        "resolved",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "resolution": {
+      "type": "string"
+    },
+    "closed_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "complaint_number",
+    "customer_id",
+    "received_date",
+    "description"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "name": "NCR",
+  "type": "object",
+  "properties": {
+    "ncr_number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "incoming_rm",
+        "in_process",
+        "final_inspection",
+        "customer_complaint",
+        "audit",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "quarantine",
+        "disposition",
+        "root_cause",
+        "capa_open",
+        "verify",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "rm_batch_id": {
+      "type": "string"
+    },
+    "fg_batch_id": {
+      "type": "string"
+    },
+    "disposition": {
+      "type": "string",
+      "enum": [
+        "scrap",
+        "rework",
+        "use_as_is",
+        "return_to_supplier"
+      ]
+    },
+    "concession_approver": {
+      "type": "string",
+      "description": "Required if disposition is use_as_is"
+    },
+    "already_dispatched": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "detected_by": {
+      "type": "string"
+    },
+    "detected_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "work_order_id": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ncr_number",
+    "title",
+    "source",
+    "detected_date"
+  ]
+}

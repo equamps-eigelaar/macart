@@ -1,0 +1,50 @@
+{
+  "name": "SafetyInspection",
+  "type": "object",
+  "properties": {
+    "inspection_number": {
+      "type": "string"
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "inspector": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "string"
+    },
+    "actions_required": {
+      "type": "string"
+    },
+    "ncr_id": {
+      "type": "string"
+    },
+    "capa_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "actions_pending",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "closed_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "inspection_number",
+    "inspection_date",
+    "inspector",
+    "area"
+  ]
+}

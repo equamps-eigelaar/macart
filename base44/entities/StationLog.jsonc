@@ -1,0 +1,87 @@
+{
+  "name": "StationLog",
+  "type": "object",
+  "properties": {
+    "work_order_id": {
+      "type": "string",
+      "description": "Reference to WorkOrder"
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand"
+      ],
+      "description": "Station identifier"
+    },
+    "shift": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ],
+      "description": "Shift"
+    },
+    "log_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "operator_id": {
+      "type": "string"
+    },
+    "planned_time_min": {
+      "type": "number",
+      "description": "Planned production time in minutes"
+    },
+    "downtime_min": {
+      "type": "number",
+      "description": "Total downtime in minutes"
+    },
+    "downtime_reason_id": {
+      "type": "string"
+    },
+    "good_count": {
+      "type": "number"
+    },
+    "scrap_count": {
+      "type": "number"
+    },
+    "total_count": {
+      "type": "number"
+    },
+    "ideal_cycle_time_sec": {
+      "type": "number",
+      "description": "Ideal cycle time per unit in seconds"
+    },
+    "availability": {
+      "type": "number",
+      "description": "Calculated availability %"
+    },
+    "performance": {
+      "type": "number",
+      "description": "Calculated performance %"
+    },
+    "quality": {
+      "type": "number",
+      "description": "Calculated quality %"
+    },
+    "oee": {
+      "type": "number",
+      "description": "Calculated OEE %"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "station",
+    "shift",
+    "log_date"
+  ]
+}
