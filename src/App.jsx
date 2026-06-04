@@ -6,6 +6,7 @@ import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import FeedbackPage from './pages/Feedback';
+import CustomerOrdersPage from './pages/CustomerOrders';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      <Route path="/CustomerOrders" element={<LayoutWrapper currentPageName="CustomerOrders"><CustomerOrdersPage /></LayoutWrapper>} />
       <Route path="/Feedback" element={<LayoutWrapper currentPageName="Feedback"><FeedbackPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
