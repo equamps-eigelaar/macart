@@ -20,6 +20,7 @@ const navGroups = [
       { label: "Station Log", path: "/StationLog", icon: Activity },
       { label: "OEE Monitor", path: "/OEE", icon: BarChart3 },
       { label: "Customer Orders", path: "/CustomerOrders", icon: ClipboardList },
+      { label: "Order Monitor", path: "/OrderMonitor", icon: Activity },
       { label: "Dispatch", path: "/Dispatch", icon: Truck },
     ]
   },
