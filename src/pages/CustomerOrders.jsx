@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Search, ChevronDown, ChevronRight, Package, Truck, Eye } from "lucide-react";
+import { Plus, Search, ChevronDown, ChevronRight, Package, Truck, CheckSquare, Square, X } from "lucide-react";
 import { format } from "date-fns";
 
 const ORDER_STATUS_COLORS = {
@@ -39,6 +39,9 @@ export default function CustomerOrders() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [bulkStatus, setBulkStatus] = useState("dispatched");
+  const [bulkLoading, setBulkLoading] = useState(false);
 
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [editingOrder, setEditingOrder] = useState(null);
@@ -101,6 +104,18 @@ export default function CustomerOrders() {
     await base44.entities.CustomerOrder.update(order.id, { status: newStatus });
     load();
   };
+
+  const handleBulkUpdate = async () => {
+    if (!selectedIds.length) return;
+    setBulkLoading(true);
+    await Promise.all(selectedIds.map(id => base44.entities.CustomerOrder.update(id, { status: bulkStatus })));
+    setSelectedIds([]);
+    setBulkLoading(false);
+    load();
+  };
+
+  const toggleSelect = (id) => setSelectedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
+  const toggleAll = () => setSelectedIds(selectedIds.length === filtered.length ? [] : filtered.map(o => o.id));
 
   const filtered = orders.filter(o => {
     const matchSearch = !search ||
@@ -220,8 +235,42 @@ export default function CustomerOrders() {
         </select>
       </div>
 
+      {/* Bulk action toolbar */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center gap-3 bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 flex-wrap">
+          <span className="text-sm font-medium text-primary">{selectedIds.length} order{selectedIds.length !== 1 ? "s" : ""} selected</span>
+          <div className="flex items-center gap-2 ml-auto flex-wrap">
+            <span className="text-sm text-muted-foreground">Set status to:</span>
+            <select value={bulkStatus} onChange={e => setBulkStatus(e.target.value)}
+              className="bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-1 focus:ring-primary">
+              {["draft", "confirmed", "in_production", "dispatched", "complete", "cancelled"].map(s => (
+                <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
+              ))}
+            </select>
+            <button onClick={handleBulkUpdate} disabled={bulkLoading}
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50">
+              <CheckSquare className="w-4 h-4" />
+              {bulkLoading ? "Updating…" : "Apply"}
+            </button>
+            <button onClick={() => setSelectedIds([])} className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Orders List */}
       <div className="space-y-2">
+        {filtered.length > 0 && (
+          <div className="flex items-center gap-2 px-1 pb-1">
+            <button onClick={toggleAll} className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
+              {selectedIds.length === filtered.length
+                ? <CheckSquare className="w-4 h-4 text-primary" />
+                : <Square className="w-4 h-4" />}
+              {selectedIds.length === filtered.length ? "Deselect all" : "Select all"}
+            </button>
+          </div>
+        )}
         {filtered.length === 0 && (
           <div className="bg-card border border-border rounded-xl py-16 text-center text-muted-foreground">No orders found</div>
         )}
@@ -232,12 +281,17 @@ export default function CustomerOrders() {
           const isOverdue = order.required_date && order.required_date < format(new Date(), "yyyy-MM-dd") && !["complete", "dispatched", "cancelled"].includes(order.status);
 
           return (
-            <div key={order.id} className="bg-card border border-border rounded-xl overflow-hidden">
+            <div key={order.id} className={`bg-card border rounded-xl overflow-hidden transition-colors ${selectedIds.includes(order.id) ? "border-primary/50 bg-primary/5" : "border-border"}`}>
               {/* Order Row */}
               <div
                 className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-secondary/30"
                 onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
               >
+                <div onClick={e => { e.stopPropagation(); toggleSelect(order.id); }} className="flex-shrink-0 cursor-pointer">
+                  {selectedIds.includes(order.id)
+                    ? <CheckSquare className="w-4 h-4 text-primary" />
+                    : <Square className="w-4 h-4 text-muted-foreground hover:text-foreground" />}
+                </div>
                 <span className="text-muted-foreground">
                   {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                 </span>
