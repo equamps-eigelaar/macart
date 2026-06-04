@@ -16,6 +16,7 @@ const navGroups = [
     items: [
       { label: "Dashboard", path: "/", icon: LayoutDashboard },
       { label: "Work Orders", path: "/WorkOrders", icon: ClipboardList },
+      { label: "Schedule Board", path: "/ProductionSchedule", icon: BarChart3 },
       { label: "Station Log", path: "/StationLog", icon: Activity },
       { label: "OEE Monitor", path: "/OEE", icon: BarChart3 },
       { label: "Customer Orders", path: "/CustomerOrders", icon: ClipboardList },
