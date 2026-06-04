@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope,
   Ruler, AlertTriangle, ShieldCheck, Leaf, FileText, BookOpen,
   Users, Package, Truck, Layers, Wrench, ChevronDown, Menu, X,
-  Settings, BarChart3, Activity, LogOut
+  Settings, BarChart3, Activity, LogOut, TrendingDown
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
@@ -19,6 +19,7 @@ const navGroups = [
       { label: "Schedule Board", path: "/ProductionSchedule", icon: BarChart3 },
       { label: "Station Log", path: "/StationLog", icon: Activity },
       { label: "OEE Monitor", path: "/OEE", icon: BarChart3 },
+      { label: "Scrap Tracking", path: "/ScrapTracking", icon: TrendingDown },
       { label: "Customer Orders", path: "/CustomerOrders", icon: ClipboardList },
       { label: "Order Status", path: "/OrderStatusDashboard", icon: Activity },
       { label: "Dispatch", path: "/Dispatch", icon: Truck },

@@ -9,6 +9,7 @@ import FeedbackPage from './pages/Feedback';
 import CustomerOrdersPage from './pages/CustomerOrders';
 import ProductionSchedulePage from './pages/ProductionSchedule';
 import OrderStatusDashboardPage from './pages/OrderStatusDashboard';
+import ScrapTrackingPage from './pages/ScrapTracking';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
@@ -65,6 +66,7 @@ const AuthenticatedApp = () => {
       <Route path="/CustomerOrders" element={<LayoutWrapper currentPageName="CustomerOrders"><CustomerOrdersPage /></LayoutWrapper>} />
       <Route path="/ProductionSchedule" element={<LayoutWrapper currentPageName="ProductionSchedule"><ProductionSchedulePage /></LayoutWrapper>} />
       <Route path="/OrderStatusDashboard" element={<LayoutWrapper currentPageName="OrderStatusDashboard"><OrderStatusDashboardPage /></LayoutWrapper>} />
+      <Route path="/ScrapTracking" element={<LayoutWrapper currentPageName="ScrapTracking"><ScrapTrackingPage /></LayoutWrapper>} />
       <Route path="/Feedback" element={<LayoutWrapper currentPageName="Feedback"><FeedbackPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>

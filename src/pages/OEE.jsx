@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { format, subDays } from "date-fns";
+import { AlertTriangle } from "lucide-react";
 
 const STATIONS = ["press","cut_1","cut_2","cut_3","de_form","glue_machine","glue_hand"];
 
@@ -13,14 +14,19 @@ function OEEBadge({ value }) {
 
 export default function OEEMonitor() {
   const [logs, setLogs] = useState([]);
+  const [scrapEntries, setScrapEntries] = useState([]);
   const [stationFilter, setStationFilter] = useState("all");
   const [days, setDays] = useState(7);
 
   useEffect(() => {
     async function load() {
       const from = format(subDays(new Date(), days - 1), "yyyy-MM-dd");
-      const all = await base44.entities.StationLog.list("-log_date", 500);
+      const [all, scraps] = await Promise.all([
+        base44.entities.StationLog.list("-log_date", 500),
+        base44.entities.ScrapEntry.list("-entry_date", 500),
+      ]);
       setLogs(all.filter(l => l.log_date >= from));
+      setScrapEntries(scraps.filter(s => s.entry_date >= from));
     }
     load();
   }, [days]);
@@ -56,6 +62,19 @@ export default function OEEMonitor() {
       perf: avg(sl.map(l => l.performance || 0)),
       qual: avg(sl.map(l => l.quality || 0)),
     };
+  });
+
+  // Scrap summary per station
+  const scrapByStation = STATIONS.map(s => {
+    const se = scrapEntries.filter(e => e.station === s);
+    if (!se.length) return { station: s, avgScrap: null, avgVariance: null, overCount: 0 };
+    const totalIn  = se.reduce((a, e) => a + (e.qty_input || 0), 0);
+    const totalSc  = se.reduce((a, e) => a + (e.qty_scrap || 0), 0);
+    const avgScrap = totalIn > 0 ? (totalSc / totalIn) * 100 : 0;
+    const withBOM  = se.filter(e => e.variance_pct != null);
+    const avgVariance = withBOM.length ? withBOM.reduce((a, e) => a + e.variance_pct, 0) / withBOM.length : null;
+    const overCount = withBOM.filter(e => e.variance_pct > 0).length;
+    return { station: s, avgScrap, avgVariance, overCount };
   });
 
   return (
@@ -98,6 +117,51 @@ export default function OEEMonitor() {
               <Bar dataKey="Quality" fill="#34d399" radius={[3,3,0,0]} />
             </BarChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Scrap vs BOM panel */}
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+          <h2 className="font-semibold">Scrap vs BOM Allowance (last {days} days)</h2>
+          <a href="/ScrapTracking" className="text-xs text-primary hover:underline">View full log →</a>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border text-muted-foreground text-xs uppercase tracking-wider">
+                <th className="px-4 py-3 text-left">Station</th>
+                <th className="px-4 py-3 text-left">Avg Actual Scrap %</th>
+                <th className="px-4 py-3 text-left">Avg Variance vs BOM</th>
+                <th className="px-4 py-3 text-left">Over-Allowance Runs</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {scrapByStation.map(s => {
+                const varColor = s.avgVariance == null ? "text-muted-foreground" : s.avgVariance > 2 ? "text-red-400" : s.avgVariance > 0 ? "text-amber-400" : "text-green-400";
+                return (
+                  <tr key={s.station} className={`hover:bg-secondary/40 transition-colors ${(s.avgVariance || 0) > 2 ? "bg-red-500/5" : ""}`}>
+                    <td className="px-4 py-3 font-medium capitalize">{s.station.replace(/_/g," ")}</td>
+                    <td className="px-4 py-3 font-mono">
+                      {s.avgScrap != null ? (
+                        <span className={s.avgScrap > 5 ? "text-red-400" : s.avgScrap > 3 ? "text-amber-400" : "text-green-400"}>
+                          {s.avgScrap.toFixed(2)}%
+                        </span>
+                      ) : <span className="text-muted-foreground">no data</span>}
+                    </td>
+                    <td className={`px-4 py-3 font-mono font-semibold ${varColor}`}>
+                      {s.avgVariance != null ? `${s.avgVariance > 0 ? "+" : ""}${s.avgVariance.toFixed(2)}%` : "—"}
+                    </td>
+                    <td className="px-4 py-3">
+                      {s.overCount > 0
+                        ? <span className="flex items-center gap-1 text-amber-400"><AlertTriangle className="w-3 h-3"/>{s.overCount}</span>
+                        : <span className="text-muted-foreground">{s.avgScrap != null ? "0" : "—"}</span>}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 

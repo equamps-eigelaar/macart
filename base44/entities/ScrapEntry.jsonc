@@ -1,0 +1,77 @@
+{
+  "name": "ScrapEntry",
+  "type": "object",
+  "properties": {
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand"
+      ]
+    },
+    "work_order_id": {
+      "type": "string",
+      "description": "Reference to WorkOrder"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "entry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "shift": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "qty_input": {
+      "type": "number",
+      "description": "Total units entering this station"
+    },
+    "qty_good": {
+      "type": "number",
+      "description": "Good units out"
+    },
+    "qty_scrap": {
+      "type": "number",
+      "description": "Scrap units"
+    },
+    "scrap_pct": {
+      "type": "number",
+      "description": "Calculated scrap % = qty_scrap / qty_input * 100"
+    },
+    "bom_scrap_factor": {
+      "type": "number",
+      "description": "BOM scrap factor for this product at this station (e.g. 1.05 = 5%)"
+    },
+    "bom_scrap_pct": {
+      "type": "number",
+      "description": "BOM allowance % = (scrap_factor - 1) * 100"
+    },
+    "variance_pct": {
+      "type": "number",
+      "description": "actual_scrap_pct - bom_scrap_pct (positive = over allowance)"
+    },
+    "operator_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "station",
+    "entry_date",
+    "qty_input",
+    "qty_good"
+  ]
+}
