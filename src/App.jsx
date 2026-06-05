@@ -6,6 +6,7 @@ import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import FeedbackPage from './pages/Feedback';
+import WorkOrdersPage from './pages/WorkOrders';
 import CustomerOrdersPage from './pages/CustomerOrders';
 import ProductionSchedulePage from './pages/ProductionSchedule';
 import OrderStatusDashboardPage from './pages/OrderStatusDashboard';
@@ -68,6 +69,7 @@ const AuthenticatedApp = () => {
       <Route path="/OrderStatusDashboard" element={<LayoutWrapper currentPageName="OrderStatusDashboard"><OrderStatusDashboardPage /></LayoutWrapper>} />
       <Route path="/ScrapTracking" element={<LayoutWrapper currentPageName="ScrapTracking"><ScrapTrackingPage /></LayoutWrapper>} />
       <Route path="/Feedback" element={<LayoutWrapper currentPageName="Feedback"><FeedbackPage /></LayoutWrapper>} />
+      <Route path="/WorkOrders" element={<LayoutWrapper currentPageName="WorkOrders"><WorkOrdersPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
