@@ -19,10 +19,11 @@ function calcOEE(form) {
 
 export default function StationLog() {
   const [logs, setLogs] = useState([]);
+  const [downtimeReasons, setDowntimeReasons] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
     station: "press", shift: "A", log_date: format(new Date(), "yyyy-MM-dd"),
-    planned_time_min: 480, downtime_min: 0, good_count: 0, scrap_count: 0,
+    planned_time_min: 480, downtime_min: 0, downtime_reason_id: "", good_count: 0, scrap_count: 0,
     total_count: 0, ideal_cycle_time_sec: 60, notes: ""
   });
   const [dateFilter, setDateFilter] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -32,6 +33,9 @@ export default function StationLog() {
     setLogs(data);
   };
 
+  useEffect(() => {
+    base44.entities.DowntimeReason.list().then(r => setDowntimeReasons(r.filter(d => d.is_active !== false)));
+  }, []);
   useEffect(() => { load(); }, [dateFilter]);
 
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
@@ -92,6 +96,18 @@ export default function StationLog() {
                 )}
               </div>
             ))}
+            {form.downtime_min > 0 && downtimeReasons.length > 0 && (
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Downtime Reason</label>
+                <select value={form.downtime_reason_id} onChange={e => set("downtime_reason_id", e.target.value)}
+                  className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
+                  <option value="">— Select reason —</option>
+                  {downtimeReasons.map(r => (
+                    <option key={r.id} value={r.id}>{r.code} — {r.description}</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="col-span-2">
               <label className="text-xs text-muted-foreground mb-1 block">Notes</label>
               <input value={form.notes} onChange={e => set("notes", e.target.value)}
@@ -125,13 +141,13 @@ export default function StationLog() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-muted-foreground text-xs uppercase tracking-wider">
-                {["Station","Shift","Date","Planned","Downtime","Good","Scrap","Avail%","Perf%","Qual%","OEE%"].map(h => (
+                {["Station","Shift","Date","Planned","Downtime","Reason","Good","Scrap","Avail%","Perf%","Qual%","OEE%"].map(h => (
                   <th key={h} className="px-4 py-3 text-left">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {logs.length === 0 && <tr><td colSpan={11} className="text-center py-12 text-muted-foreground">No logs for this date</td></tr>}
+              {logs.length === 0 && <tr><td colSpan={12} className="text-center py-12 text-muted-foreground">No logs for this date</td></tr>}
               {logs.map(l => {
                 const c = l.oee >= 65 ? "text-green-400" : l.oee >= 45 ? "text-amber-400" : "text-red-400";
                 return (
@@ -141,6 +157,9 @@ export default function StationLog() {
                     <td className="px-4 py-3 text-muted-foreground">{l.log_date}</td>
                     <td className="px-4 py-3">{l.planned_time_min}</td>
                     <td className="px-4 py-3">{l.downtime_min || 0}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
+                      {downtimeReasons.find(r => r.id === l.downtime_reason_id)?.code || (l.downtime_min > 0 ? "—" : "")}
+                    </td>
                     <td className="px-4 py-3">{l.good_count}</td>
                     <td className="px-4 py-3">{l.scrap_count}</td>
                     <td className="px-4 py-3">{l.availability?.toFixed(1)}</td>
