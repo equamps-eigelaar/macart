@@ -1,0 +1,22 @@
+{
+  "name": "PreventiveMaintenance",
+  "type": "object",
+  "properties": {
+    "pm_number": { "type": "string" },
+    "asset_name": { "type": "string" },
+    "asset_location": { "type": "string" },
+    "task_description": { "type": "string" },
+    "frequency": {
+      "type": "string",
+      "enum": ["daily", "weekly", "monthly", "quarterly", "semi_annual", "annual"],
+      "default": "monthly"
+    },
+    "last_completed": { "type": "string", "format": "date" },
+    "next_due": { "type": "string", "format": "date" },
+    "assigned_to": { "type": "string" },
+    "estimated_duration_min": { "type": "number" },
+    "is_active": { "type": "boolean", "default": true },
+    "notes": { "type": "string" }
+  },
+  "required": ["pm_number", "asset_name", "task_description", "frequency"]
+}

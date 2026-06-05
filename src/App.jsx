@@ -40,6 +40,8 @@ import CustomersPage from './pages/Customers';
 import SuppliersPage from './pages/Suppliers';
 import InstrumentsPage from './pages/Instruments';
 import DowntimeReasonsPage from './pages/DowntimeReasons';
+import MaintenanceRequestsPage from './pages/MaintenanceRequests';
+import PMSchedulePage from './pages/PMSchedule';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -123,6 +125,8 @@ const AuthenticatedApp = () => {
       <Route path="/Suppliers" element={<LayoutWrapper currentPageName="Suppliers"><SuppliersPage /></LayoutWrapper>} />
       <Route path="/Instruments" element={<LayoutWrapper currentPageName="Instruments"><InstrumentsPage /></LayoutWrapper>} />
       <Route path="/DowntimeReasons" element={<LayoutWrapper currentPageName="DowntimeReasons"><DowntimeReasonsPage /></LayoutWrapper>} />
+      <Route path="/MaintenanceRequests" element={<LayoutWrapper currentPageName="MaintenanceRequests"><MaintenanceRequestsPage /></LayoutWrapper>} />
+      <Route path="/PMSchedule" element={<LayoutWrapper currentPageName="PMSchedule"><PMSchedulePage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

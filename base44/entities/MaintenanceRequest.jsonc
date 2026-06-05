@@ -1,0 +1,28 @@
+{
+  "name": "MaintenanceRequest",
+  "type": "object",
+  "properties": {
+    "request_number": { "type": "string" },
+    "asset_name": { "type": "string" },
+    "asset_location": { "type": "string" },
+    "issue_description": { "type": "string" },
+    "priority": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "assigned", "in_progress", "on_hold", "completed", "cancelled"],
+      "default": "open"
+    },
+    "requested_by": { "type": "string" },
+    "assigned_to": { "type": "string" },
+    "requested_date": { "type": "string", "format": "date" },
+    "target_date": { "type": "string", "format": "date" },
+    "completed_date": { "type": "string", "format": "date" },
+    "downtime_incurred": { "type": "boolean", "default": false },
+    "resolution_notes": { "type": "string" }
+  },
+  "required": ["request_number", "asset_name", "issue_description", "priority"]
+}
