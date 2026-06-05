@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { Plus, Search } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import OnboardingOverlay from "@/components/compliance/OnboardingOverlay";
 
-const STATUS_COLORS = { compliant:"bg-green-500/15 text-green-400", in_progress:"bg-amber-500/15 text-amber-400", non_compliant:"bg-red-500/15 text-red-400", not_applicable:"bg-slate-500/15 text-slate-400" };
+const STATUS_COLORS = { compliant:"bg-green-500/15 text-green-400", in_progress:"bg-amber-500/15 text-amber-400", non_compliant:"bg-red-500/15 text-red-400", not_applicable:"bg-slate-500/15 text-slate-400", partial:"bg-amber-500/15 text-amber-400" };
+const STATUS_LABELS = { compliant:"Done & proven", in_progress:"Working on it", partial:"Working on it", non_compliant:"Gap — needs action", not_applicable:"Doesn't apply", not_started:"Not started" };
 const empty = { clause_id:"", standard:"ISO 9001:2015", title:"", description:"", status:"in_progress", evidence:"", owner:"", target_date:"", notes:"" };
 
 export default function CompliancePage() {
@@ -13,15 +16,22 @@ export default function CompliancePage() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("macart_onboarding_done"));
+  const { toast } = useToast();
 
   const load = async () => { const d = await base44.entities.ComplianceItem.list("-created_date", 500); setRecords(d); };
   useEffect(() => { load(); }, []);
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
+    const isFirstCompletion = form.status === "compliant" && !sessionStorage.getItem("macart_first_compliant");
     if (editing) await base44.entities.ComplianceItem.update(editing.id, form);
     else await base44.entities.ComplianceItem.create(form);
     setShowForm(false); setEditing(null); setForm(empty); load();
+    if (isFirstCompletion) {
+      sessionStorage.setItem("macart_first_compliant", "1");
+      toast({ description: "First one done. Keep going — every item you finish is one less audit surprise." });
+    }
   };
 
   const standards = [...new Set(records.map(r => r.standard).filter(Boolean))];
@@ -38,6 +48,8 @@ export default function CompliancePage() {
     non_compliant: records.filter(r => r.status === "non_compliant").length,
     total: records.filter(r => r.status !== "not_applicable").length,
   };
+  const auditReady = records.filter(r => r.status === "compliant" && (r.evidence || r.evidence_url));
+  const auditPct = stats.total > 0 ? Math.round(auditReady.length / stats.total * 100) : 0;
 
   return (
     <div className="space-y-5">
@@ -52,9 +64,9 @@ export default function CompliancePage() {
       {/* Summary bars */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: "Compliant", count: stats.compliant, color: "bg-green-400", textColor: "text-green-400" },
-          { label: "In Progress", count: stats.in_progress, color: "bg-amber-400", textColor: "text-amber-400" },
-          { label: "Non-Compliant", count: stats.non_compliant, color: "bg-red-400", textColor: "text-red-400" },
+          { label: "Done & proven", count: stats.compliant, color: "bg-green-400", textColor: "text-green-400" },
+          { label: "Working on it", count: stats.in_progress, color: "bg-amber-400", textColor: "text-amber-400" },
+          { label: "Gap — needs action", count: stats.non_compliant, color: "bg-red-400", textColor: "text-red-400" },
         ].map(s => (
           <div key={s.label} className="bg-card border border-border rounded-xl p-4">
             <div className={`text-2xl font-bold ${s.textColor}`}>{s.count}</div>
@@ -65,6 +77,26 @@ export default function CompliancePage() {
           </div>
         ))}
       </div>
+
+      {/* Audit readiness banner */}
+      {records.length > 0 && (
+        <div className="bg-card border border-border rounded-xl px-5 py-4 flex items-center gap-6">
+          <div className="flex-1">
+            <div className="text-base font-bold">You're <span className="text-primary">{auditPct}%</span> ready for audit.</div>
+            <div className="text-sm text-muted-foreground mt-0.5">Every item with a status and evidence moves this up.</div>
+          </div>
+          <div className="flex-shrink-0 text-right">
+            <div className="text-2xl font-bold text-primary">
+              {auditReady.length}<span className="text-sm text-muted-foreground font-normal"> / {stats.total}</span>
+            </div>
+            <div className="text-xs text-muted-foreground">items audit-ready</div>
+          </div>
+        </div>
+      )}
+
+      {showOnboarding && (
+        <OnboardingOverlay onClose={() => { setShowOnboarding(false); localStorage.setItem("macart_onboarding_done", "1"); }} />
+      )}
 
       {showForm && (
         <div className="bg-card border border-border rounded-xl p-5 space-y-4">
@@ -80,10 +112,10 @@ export default function CompliancePage() {
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
                 {["ISO 9001:2015","ISO 14001:2015","ISO 45001:2018"].map(s => <option key={s} value={s}>{s}</option>)}
               </select></div>
-            <div><label className="text-xs text-muted-foreground mb-1 block">Status</label>
+            <div><label className="text-xs text-muted-foreground mb-1 block">Status — where this stands right now</label>
               <select value={form.status} onChange={e => set("status", e.target.value)}
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
-                {["compliant","in_progress","non_compliant","not_applicable"].map(s => <option key={s} value={s}>{s.replace("_"," ")}</option>)}
+                {[["compliant","Done & proven"],["in_progress","Working on it"],["non_compliant","Gap — needs action"],["not_applicable","Doesn't apply"]].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
               </select></div>
             <div className="sm:col-span-3"><label className="text-xs text-muted-foreground mb-1 block">Description</label>
               <textarea rows={2} value={form.description} onChange={e => set("description", e.target.value)}
@@ -113,7 +145,7 @@ export default function CompliancePage() {
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
           className="bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
           <option value="all">All Status</option>
-          {["compliant","in_progress","non_compliant","not_applicable"].map(s => <option key={s} value={s}>{s.replace("_"," ")}</option>)}
+          {[["compliant","Done & proven"],["in_progress","Working on it"],["non_compliant","Gap — needs action"],["not_applicable","Doesn't apply"]].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
         </select>
       </div>
 
@@ -124,7 +156,23 @@ export default function CompliancePage() {
               {["Clause","Standard","Title","Owner","Target","Status","Actions"].map(h => <th key={h} className="px-4 py-3 text-left">{h}</th>)}
             </tr></thead>
             <tbody className="divide-y divide-border">
-              {filtered.length === 0 && <tr><td colSpan={7} className="text-center py-12 text-muted-foreground">No compliance items found</td></tr>}
+              {filtered.length === 0 && (
+                <tr><td colSpan={7} className="py-14 text-center">
+                  {statusFilter === "non_compliant" ? (
+                    <div>
+                      <div className="font-medium text-foreground mb-1">Nothing here — that's good</div>
+                      <div className="text-sm text-muted-foreground">No gaps flagged under this filter right now.</div>
+                    </div>
+                  ) : records.length === 0 ? (
+                    <div>
+                      <div className="font-medium text-foreground mb-1">No requirements loaded yet</div>
+                      <div className="text-sm text-muted-foreground">Once your ISO clause list is added, every requirement shows here to track. Add one to try it.</div>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground">No compliance items match your filters</span>
+                  )}
+                </td></tr>
+              )}
               {filtered.map(r => (
                 <tr key={r.id} className="hover:bg-secondary/40">
                   <td className="px-4 py-3 font-mono font-bold">{r.clause_id}</td>
@@ -132,7 +180,7 @@ export default function CompliancePage() {
                   <td className="px-4 py-3 max-w-xs">{r.title}</td>
                   <td className="px-4 py-3 text-muted-foreground">{r.owner || "—"}</td>
                   <td className="px-4 py-3 text-muted-foreground">{r.target_date || "—"}</td>
-                  <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-md text-xs font-medium ${STATUS_COLORS[r.status]}`}>{r.status?.replace("_"," ")}</span></td>
+                  <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-md text-xs font-medium ${STATUS_COLORS[r.status]}`}>{STATUS_LABELS[r.status] || r.status?.replace(/_/g," ")}</span></td>
                   <td className="px-4 py-3"><button onClick={() => { setEditing(r); setForm({...r}); setShowForm(true); }} className="text-xs text-primary hover:underline">Edit</button></td>
                 </tr>
               ))}
