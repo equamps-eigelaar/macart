@@ -72,7 +72,18 @@ export default function Suppliers() {
               {["Code","Name","Contact","Email","Phone","Status","Actions"].map(h => <th key={h} className="px-4 py-3 text-left">{h}</th>)}
             </tr></thead>
             <tbody className="divide-y divide-border">
-              {filtered.length === 0 && <tr><td colSpan={7} className="text-center py-12 text-muted-foreground">No suppliers found</td></tr>}
+              {filtered.length === 0 && (
+                <tr><td colSpan={7} className="py-16 text-center">
+                  {records.length === 0 ? (
+                    <div>
+                      <div className="font-medium text-foreground mb-1">No suppliers yet</div>
+                      <div className="text-sm text-muted-foreground">Add a supplier first — incoming raw material batches are linked to a supplier for traceability.</div>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground">No suppliers match your search</span>
+                  )}
+                </td></tr>
+              )}
               {filtered.map(r => (
                 <tr key={r.id} className="hover:bg-secondary/40">
                   <td className="px-4 py-3 font-mono font-bold">{r.supplier_code}</td>

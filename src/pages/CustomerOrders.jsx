@@ -272,7 +272,20 @@ export default function CustomerOrders() {
           </div>
         )}
         {filtered.length === 0 && (
-          <div className="bg-card border border-border rounded-xl py-16 text-center text-muted-foreground">No orders found</div>
+          <div className="bg-card border border-border rounded-xl py-16 text-center px-6">
+            {orders.length === 0 ? (
+              <div>
+                <div className="font-medium text-foreground mb-1">No orders yet</div>
+                <div className="text-sm text-muted-foreground">
+                  {customers.length === 0
+                    ? "Add a Customer first (Master Data → Customers), then come back to create your first order."
+                    : "Add your first customer order — each order holds lines that drive work orders and production."}
+                </div>
+              </div>
+            ) : (
+              <span className="text-muted-foreground">No orders match your filters</span>
+            )}
+          </div>
         )}
         {filtered.map(order => {
           const lines = linesFor(order.id);

@@ -16,7 +16,7 @@ export default function CompliancePage() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState(null);
-  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("macart_onboarding_done"));
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("macart_compliance_onboarding_done"));
   const { toast } = useToast();
 
   const load = async () => { const d = await base44.entities.ComplianceItem.list("-created_date", 500); setRecords(d); };
@@ -24,12 +24,12 @@ export default function CompliancePage() {
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
-    const isFirstCompletion = form.status === "compliant" && !sessionStorage.getItem("macart_first_compliant");
+    const isFirstCompletion = form.status === "compliant" && !localStorage.getItem("macart_first_compliant");
     if (editing) await base44.entities.ComplianceItem.update(editing.id, form);
     else await base44.entities.ComplianceItem.create(form);
     setShowForm(false); setEditing(null); setForm(empty); load();
     if (isFirstCompletion) {
-      sessionStorage.setItem("macart_first_compliant", "1");
+      localStorage.setItem("macart_first_compliant", "1");
       toast({ description: "First one done. Keep going — every item you finish is one less audit surprise." });
     }
   };
@@ -95,7 +95,7 @@ export default function CompliancePage() {
       )}
 
       {showOnboarding && (
-        <OnboardingOverlay onClose={() => { setShowOnboarding(false); localStorage.setItem("macart_onboarding_done", "1"); }} />
+        <OnboardingOverlay onClose={() => { setShowOnboarding(false); localStorage.setItem("macart_compliance_onboarding_done", "1"); }} />
       )}
 
       {showForm && (

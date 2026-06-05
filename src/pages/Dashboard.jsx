@@ -39,6 +39,8 @@ export default function Dashboard() {
     openIncidents: 0, avgOee: null, dueCalibrations: 0,
     recentNCRs: [], recentCAPAs: []
   });
+  const [loading, setLoading] = useState(true);
+  const [setupDismissed, setSetupDismissed] = useState(() => !!localStorage.getItem("macart_setup_done"));
 
   useEffect(() => {
     async function load() {
@@ -65,11 +67,23 @@ export default function Dashboard() {
         recentNCRs: ncrs.slice(0, 4),
         recentCAPAs: capas.slice(0, 4),
       });
+      setLoading(false);
     }
     load();
   }, []);
 
   const statusColor = { open: "text-red-400", in_progress: "text-amber-400", verify: "text-blue-400", closed: "text-green-400" };
+
+  const isFirstRun = !loading && !setupDismissed &&
+    summary.openWOs === 0 && summary.openNCRs === 0 && summary.openCAPAs === 0 &&
+    summary.openIncidents === 0 && summary.dueCalibrations === 0 && summary.avgOee === null;
+
+  const setupSteps = [
+    { label: "Add Suppliers", sub: "Who you buy board and ink from", to: "/Suppliers", done: false },
+    { label: "Add Raw Materials", sub: "Board grades, inks, glues", to: "/RawMaterials", done: false },
+    { label: "Add Products", sub: "Box and divider specs", to: "/Products", done: false },
+    { label: "Add Customers", sub: "Then create their first order", to: "/Customers", done: false },
+  ];
 
   return (
     <div className="space-y-6">
@@ -77,6 +91,37 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold text-foreground">Operations Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">{format(new Date(), "EEEE, d MMMM yyyy")} · MacArt Manufacturing</p>
       </div>
+
+      {/* First-run setup guide */}
+      {isFirstRun && (
+        <div className="bg-card border border-primary/30 rounded-xl p-5">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <h2 className="font-semibold text-foreground">Get MacArt set up</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">Four things to add before production tracking makes sense — takes about 10 minutes.</p>
+            </div>
+            <button
+              onClick={() => { setSetupDismissed(true); localStorage.setItem("macart_setup_done", "1"); }}
+              className="text-xs text-muted-foreground hover:text-foreground flex-shrink-0 mt-0.5"
+            >
+              Dismiss
+            </button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {setupSteps.map((step, i) => (
+              <Link key={step.to} to={step.to}
+                className="bg-secondary border border-border rounded-xl p-4 hover:border-primary/40 transition-colors block">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-5 h-5 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
+                  <span className="text-sm font-medium">{step.label}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">{step.sub}</p>
+              </Link>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">Then: Customer Orders → Work Orders → Station Log → production is live.</p>
+        </div>
+      )}
 
       {/* KPI row */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

@@ -93,7 +93,16 @@ export default function WorkOrders() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.length === 0 && (
-                <tr><td colSpan={7} className="text-center py-12 text-muted-foreground">No work orders found</td></tr>
+                <tr><td colSpan={7} className="py-16 text-center">
+                  {wos.length === 0 ? (
+                    <div>
+                      <div className="font-medium text-foreground mb-1">No work orders yet</div>
+                      <div className="text-sm text-muted-foreground">Work orders are created from Customer Order lines — start there and add a line to generate a WO.</div>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground">No work orders match your filters</span>
+                  )}
+                </td></tr>
               )}
               {filtered.map(wo => (
                 <tr key={wo.id} className="hover:bg-secondary/40 transition-colors">
