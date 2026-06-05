@@ -1,0 +1,70 @@
+{
+  "name": "MaintenanceAsset",
+  "type": "object",
+  "properties": {
+    "asset_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "machine",
+        "vehicle",
+        "tool",
+        "electrical",
+        "plumbing",
+        "hvac",
+        "other"
+      ]
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "warehouse",
+        "office",
+        "general"
+      ]
+    },
+    "manufacturer": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "serial_number": {
+      "type": "string"
+    },
+    "install_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "operational",
+        "under_maintenance",
+        "out_of_service",
+        "retired"
+      ],
+      "default": "operational"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_code",
+    "name",
+    "category"
+  ]
+}

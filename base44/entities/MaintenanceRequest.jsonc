@@ -1,0 +1,80 @@
+{
+  "name": "MaintenanceRequest",
+  "type": "object",
+  "properties": {
+    "request_number": {
+      "type": "string"
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "Reference to MaintenanceAsset"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "corrective",
+        "preventive",
+        "predictive",
+        "emergency"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "description": {
+      "type": "string"
+    },
+    "reported_by": {
+      "type": "string"
+    },
+    "reported_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "assigned_to": {
+      "type": "string"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "downtime_min": {
+      "type": "number",
+      "default": 0
+    },
+    "cost": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "on_hold",
+        "completed",
+        "cancelled"
+      ],
+      "default": "open"
+    },
+    "resolution_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_number",
+    "type",
+    "description",
+    "reported_date"
+  ]
+}

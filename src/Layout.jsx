@@ -61,6 +61,16 @@ const navGroups = [
     ]
   },
   {
+    label: "Maintenance",
+    icon: Wrench,
+    color: "text-cyan-400",
+    items: [
+      { label: "Asset Register", path: "/MaintenanceAssets", icon: Wrench },
+      { label: "Work Requests", path: "/MaintenanceRequests", icon: ClipboardList },
+      { label: "PM Schedules", path: "/PMSchedules", icon: BarChart3 },
+    ]
+  },
+  {
     label: "Master Data",
     icon: Settings,
     color: "text-slate-400",

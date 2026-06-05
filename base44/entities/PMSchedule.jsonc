@@ -1,0 +1,55 @@
+{
+  "name": "PMSchedule",
+  "type": "object",
+  "properties": {
+    "schedule_code": {
+      "type": "string"
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "Reference to MaintenanceAsset"
+    },
+    "task_description": {
+      "type": "string"
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "weekly",
+        "monthly",
+        "quarterly",
+        "bi_annually",
+        "annually"
+      ]
+    },
+    "last_done_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "next_due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "assigned_to": {
+      "type": "string"
+    },
+    "estimated_duration_min": {
+      "type": "number"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schedule_code",
+    "asset_id",
+    "task_description",
+    "frequency",
+    "next_due_date"
+  ]
+}

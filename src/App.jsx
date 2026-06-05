@@ -49,6 +49,11 @@ import SuppliersPage from './pages/Suppliers';
 import InstrumentsPage from './pages/Instruments';
 import DowntimeReasonsPage from './pages/DowntimeReasons';
 
+// Maintenance
+import MaintenanceAssetsPage from './pages/MaintenanceAssets';
+import MaintenanceRequestsPage from './pages/MaintenanceRequests';
+import PMSchedulesPage from './pages/PMSchedules';
+
 // Other
 import FeedbackPage from './pages/Feedback';
 
@@ -127,6 +132,11 @@ const AuthenticatedApp = () => {
       <Route path="/Suppliers" element={<LayoutWrapper currentPageName="Suppliers"><SuppliersPage /></LayoutWrapper>} />
       <Route path="/Instruments" element={<LayoutWrapper currentPageName="Instruments"><InstrumentsPage /></LayoutWrapper>} />
       <Route path="/DowntimeReasons" element={<LayoutWrapper currentPageName="DowntimeReasons"><DowntimeReasonsPage /></LayoutWrapper>} />
+
+      {/* Maintenance */}
+      <Route path="/MaintenanceAssets" element={<LayoutWrapper currentPageName="MaintenanceAssets"><MaintenanceAssetsPage /></LayoutWrapper>} />
+      <Route path="/MaintenanceRequests" element={<LayoutWrapper currentPageName="MaintenanceRequests"><MaintenanceRequestsPage /></LayoutWrapper>} />
+      <Route path="/PMSchedules" element={<LayoutWrapper currentPageName="PMSchedules"><PMSchedulesPage /></LayoutWrapper>} />
 
       {/* Other */}
       <Route path="/Feedback" element={<LayoutWrapper currentPageName="Feedback"><FeedbackPage /></LayoutWrapper>} />
