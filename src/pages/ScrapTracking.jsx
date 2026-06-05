@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { format, subDays } from "date-fns";
-import { Plus, AlertTriangle, TrendingDown } from "lucide-react";
+import { Plus, AlertTriangle } from "lucide-react";
 import ScrapEntryForm from "@/components/scrap/ScrapEntryForm";
 
 const STATIONS = ["press","cut_1","cut_2","cut_3","de_form","glue_machine","glue_hand"];

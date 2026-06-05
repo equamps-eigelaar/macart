@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, AlertTriangle, Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 const STATUS_COLORS = {
   open: "bg-red-500/15 text-red-400",

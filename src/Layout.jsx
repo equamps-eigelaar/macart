@@ -117,15 +117,11 @@ function NavGroup({ group, isOpen, onToggle, currentPath, onNavigate }) {
   );
 }
 
-export default function Layout({ children, currentPageName }) {
+export default function Layout({ children }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const defaultOpen = navGroups.reduce((acc, g) => {
-    acc[g.label] = g.items.some(i => i.path === currentPath);
-    return acc;
-  }, {});
   const [openGroups, setOpenGroups] = useState(() => {
     const init = {};
     navGroups.forEach(g => { init[g.label] = g.items.some(i => i.path === currentPath) || g.label === "Production"; });

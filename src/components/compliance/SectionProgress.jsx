@@ -14,8 +14,6 @@ const sectionColors = {
 };
 
 export default function SectionProgress({ section, title, total, compliant, inProgress, nonCompliant }) {
-  const percentage = total > 0 ? Math.round((compliant / total) * 100) : 0;
-
   return (
     <Link
       to={createPageUrl(`Checklist?section=${section}`)}

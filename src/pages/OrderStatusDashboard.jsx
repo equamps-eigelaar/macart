@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { format, addDays, differenceInDays, parseISO } from "date-fns";
+import { differenceInDays, parseISO } from "date-fns";
 import { AlertTriangle, Clock, CheckCircle2, Truck, Package, Factory, RefreshCw } from "lucide-react";
-
-const STATUS_PIPELINE = ["confirmed", "in_production", "dispatched", "complete"];
 
 const STATUS_META = {
   draft:        { label: "Draft",        color: "text-slate-400",  bg: "bg-slate-500/15",  step: 0 },
@@ -185,7 +183,6 @@ export default function OrderStatusDashboard() {
 
   // Stats
   const activeOrders  = orders.filter(o => ["confirmed","in_production","dispatched"].includes(o.status));
-  const overdueOrders = orders.filter(o => deadlineUrgency(o.required_date)?.level === "overdue" && !["complete","cancelled"].includes(o.status));
   const criticalOrders= orders.filter(o => ["overdue","critical"].includes(deadlineUrgency(o.required_date)?.level) && !["complete","cancelled"].includes(o.status));
   const inProdOrders  = orders.filter(o => o.status === "in_production");
 

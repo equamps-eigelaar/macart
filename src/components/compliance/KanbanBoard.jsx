@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { base44 } from "@/api/base44Client";
-import { Badge } from "@/components/ui/badge";
 import { GripVertical, FileText, User, Calendar, AlertTriangle } from "lucide-react";
 
 const COLUMNS = [

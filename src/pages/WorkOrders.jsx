@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Search, ClipboardList, ChevronDown } from "lucide-react";
-import { format } from "date-fns";
+import { Plus, Search } from "lucide-react";
 import WorkOrderForm from "@/components/production/WorkOrderForm";
 
 const STATUS_COLORS = {

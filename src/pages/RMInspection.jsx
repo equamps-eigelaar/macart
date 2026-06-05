@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { format } from "date-fns";
 
 const empty = { rm_batch_id:"", inspection_date: format(new Date(),"yyyy-MM-dd"), inspector:"", ect_result:"", ect_spec_min:"", caliper_result:"", caliper_spec_min:"", caliper_spec_max:"", grammage_result:"", grammage_spec_min:"", grammage_spec_max:"", visual_ok:true, result:"pass", notes:"" };

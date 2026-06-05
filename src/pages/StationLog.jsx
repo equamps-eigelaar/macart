@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Activity } from "lucide-react";
+import { Plus } from "lucide-react";
 import { format } from "date-fns";
 
 const STATIONS = ["press","cut_1","cut_2","cut_3","de_form","glue_machine","glue_hand"];

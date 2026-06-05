@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
-  Factory, ClipboardList, AlertTriangle, ShieldCheck,
-  TrendingUp, Package, Activity, CheckCircle2, XCircle, Clock, ArrowRight
+  Factory, ClipboardList, AlertTriangle, ShieldCheck, Package, Activity, CheckCircle2, XCircle, Clock, ArrowRight
 } from "lucide-react";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
 
-function StatCard({ label, value, sub, icon: Icon, color, to }) {
+function StatCard({ label, value, sub = null, icon: Icon, color, to }) {
   const card = (
     <div className={`bg-card border border-border rounded-xl p-5 flex items-start gap-4 hover:border-primary/40 transition-colors ${to ? "cursor-pointer" : ""}`}>
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
@@ -44,7 +43,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function load() {
       const today = format(new Date(), "yyyy-MM-dd");
-      const [wos, ncrs, capas, incidents, calEvents, instruments, logs] = await Promise.all([
+      const [wos, ncrs, capas, incidents, , instruments, logs] = await Promise.all([
         base44.entities.WorkOrder.filter({ status: "in_progress" }),
         base44.entities.NCR.filter({ status: "open" }),
         base44.entities.CAPA.filter({ status: "open" }),

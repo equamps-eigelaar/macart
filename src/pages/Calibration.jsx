@@ -5,17 +5,14 @@ import { format } from "date-fns";
 
 export default function CalibrationPage() {
   const [instruments, setInstruments] = useState([]);
-  const [events, setEvents] = useState([]);
+
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ instrument_id:"", calibration_date: format(new Date(),"yyyy-MM-dd"), performed_by:"", calibrated_by_external:false, certificate_ref:"", result:"pass", next_due_date:"", notes:"" });
   const today = format(new Date(),"yyyy-MM-dd");
 
   const load = async () => {
-    const [ins, ev] = await Promise.all([
-      base44.entities.Instrument.list(),
-      base44.entities.CalibrationEvent.list("-calibration_date", 200)
-    ]);
-    setInstruments(ins); setEvents(ev);
+    const ins = await base44.entities.Instrument.list();
+    setInstruments(ins);
   };
   useEffect(() => { load(); }, []);
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
