@@ -1,0 +1,39 @@
+{
+  "name": "FSSCRequirement",
+  "type": "object",
+  "properties": {
+    "part": {
+      "type": "string",
+      "enum": [
+        "Part 1 - Program Overview",
+        "Part 2 - Organization Requirements",
+        "Part 3 - Assessment Process",
+        "Part 4 - CAB Requirements"
+      ]
+    },
+    "section": { "type": "string" },
+    "requirement": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["not_yet_started", "in_progress", "compliant", "non_compliant", "not_applicable"],
+      "default": "not_yet_started"
+    },
+    "implementation_status": {
+      "type": "string",
+      "enum": ["not_started", "designed", "implemented", "verified"],
+      "default": "not_started"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "default": "medium"
+    },
+    "assigned_to": { "type": "string" },
+    "due_date": { "type": "string", "format": "date" },
+    "evidence_notes": { "type": "string" },
+    "evidence_date": { "type": "string", "format": "date" },
+    "review_date": { "type": "string", "format": "date" },
+    "category": { "type": "string", "description": "Food chain category if applicable" }
+  },
+  "required": ["part", "section", "requirement", "status"]
+}

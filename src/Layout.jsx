@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope,
   Ruler, AlertTriangle, ShieldCheck, Leaf, FileText, BookOpen,
   Users, Package, Truck, Layers, Wrench, ChevronDown, Menu, X,
-  Settings, BarChart3, Activity, LogOut, TrendingDown, Clock
+  Settings, BarChart3, Activity, LogOut, TrendingDown, Clock, Building2
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
@@ -67,6 +67,8 @@ const navGroups = [
       { label: "Compliance Items", path: "/Compliance", icon: BookOpen },
       { label: "Obligations", path: "/ComplianceObligations", icon: FileText },
       { label: "Training Records", path: "/Training", icon: Users },
+      { label: "FSSC 22000", path: "/FSSC22000", icon: ShieldCheck },
+      { label: "CAB Correspondence", path: "/CABCorrespondence", icon: Building2 },
     ]
   },
   {

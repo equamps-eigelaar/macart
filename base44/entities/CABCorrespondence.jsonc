@@ -1,0 +1,20 @@
+{
+  "name": "CABCorrespondence",
+  "type": "object",
+  "properties": {
+    "cab_name": { "type": "string" },
+    "contact_person": { "type": "string" },
+    "contact_email": { "type": "string" },
+    "sector": { "type": "string", "description": "Food chain sector for the assessment" },
+    "country": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "status": {
+      "type": "string",
+      "enum": ["initial_contact", "quote_requested", "quote_received", "assessment_scheduled", "assessment_complete", "on_hold"],
+      "default": "initial_contact"
+    },
+    "assessment_date": { "type": "string", "format": "date" },
+    "notes": { "type": "string" }
+  },
+  "required": ["cab_name", "status"]
+}
