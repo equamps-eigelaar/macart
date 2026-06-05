@@ -67,6 +67,7 @@ const navGroups = [
       { label: "Compliance Items", path: "/Compliance", icon: BookOpen },
       { label: "Obligations", path: "/ComplianceObligations", icon: FileText },
       { label: "Training Records", path: "/Training", icon: Users },
+      { label: "Standards", path: "/Standards", icon: BookOpen },
       { label: "FSSC 22000", path: "/FSSC22000", icon: ShieldCheck },
       { label: "CAB Correspondence", path: "/CABCorrespondence", icon: Building2 },
     ]

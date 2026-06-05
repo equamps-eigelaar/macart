@@ -1,0 +1,15 @@
+{
+  "name": "ComplianceProfile",
+  "type": "object",
+  "properties": {
+    "organisation_name": { "type": "string" },
+    "active_standards": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of active standard IDs e.g. ['ISO9001','FSSC22000']",
+      "default": []
+    },
+    "certification_target_date": { "type": "string", "format": "date" },
+    "notes": { "type": "string" }
+  }
+}
