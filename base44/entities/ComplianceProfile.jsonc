@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "active_standards": {
+      "default": [],
+      "description": "List of active standard IDs e.g. ['ISO9001','FSSC22000']",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "certification_target_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "organisation_name": {
+      "type": "string"
+    }
+  },
+  "type": "object",
+  "required": [],
+  "name": "ComplianceProfile"
+}

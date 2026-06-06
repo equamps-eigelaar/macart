@@ -1,0 +1,79 @@
+{
+  "name": "FSSCRequirement",
+  "properties": {
+    "assigned_to": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "due_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "evidence_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "evidence_notes": {
+      "type": "string"
+    },
+    "implementation_status": {
+      "default": "not_started",
+      "enum": [
+        "not_started",
+        "designed",
+        "implemented",
+        "verified"
+      ],
+      "type": "string"
+    },
+    "part": {
+      "enum": [
+        "Part 1 - Program Overview",
+        "Part 2 - Organization Requirements",
+        "Part 3 - Assessment Process",
+        "Part 4 - CAB Requirements"
+      ],
+      "type": "string"
+    },
+    "priority": {
+      "default": "medium",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "type": "string"
+    },
+    "requirement": {
+      "type": "string"
+    },
+    "review_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
+    },
+    "status": {
+      "default": "not_yet_started",
+      "enum": [
+        "not_yet_started",
+        "in_progress",
+        "compliant",
+        "non_compliant",
+        "not_applicable"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "part",
+    "section",
+    "requirement",
+    "status"
+  ],
+  "type": "object"
+}

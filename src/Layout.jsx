@@ -55,6 +55,7 @@ const navGroups = [
     icon: BookOpen,
     color: "text-purple-400",
     items: [
+      { label: "Standards", path: "/Standards", icon: BookOpen },
       { label: "Compliance Items", path: "/Compliance", icon: BookOpen },
       { label: "Obligations", path: "/ComplianceObligations", icon: FileText },
       { label: "Training Records", path: "/Training", icon: Users },

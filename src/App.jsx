@@ -35,6 +35,7 @@ import EnvObjectivesPage from './pages/EnvObjectives';
 import SafetyInspectionsPage from './pages/SafetyInspections';
 
 // IMS Compliance
+import StandardsPage from './pages/Standards';
 import CompliancePage from './pages/Compliance';
 import ComplianceObligationsPage from './pages/ComplianceObligations';
 import TrainingPage from './pages/Training';
@@ -119,6 +120,7 @@ const AuthenticatedApp = () => {
       <Route path="/SafetyInspections" element={<LayoutWrapper currentPageName="SafetyInspections"><SafetyInspectionsPage /></LayoutWrapper>} />
 
       {/* IMS Compliance */}
+      <Route path="/Standards" element={<LayoutWrapper currentPageName="Standards"><StandardsPage /></LayoutWrapper>} />
       <Route path="/Compliance" element={<LayoutWrapper currentPageName="Compliance"><CompliancePage /></LayoutWrapper>} />
       <Route path="/ComplianceObligations" element={<LayoutWrapper currentPageName="ComplianceObligations"><ComplianceObligationsPage /></LayoutWrapper>} />
       <Route path="/Training" element={<LayoutWrapper currentPageName="Training"><TrainingPage /></LayoutWrapper>} />

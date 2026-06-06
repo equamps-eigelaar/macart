@@ -1,0 +1,48 @@
+{
+  "name": "CABCorrespondence",
+  "properties": {
+    "assessment_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "cab_name": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "contact_person": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "date": {
+      "format": "date",
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "status": {
+      "default": "initial_contact",
+      "enum": [
+        "initial_contact",
+        "quote_requested",
+        "quote_received",
+        "assessment_scheduled",
+        "assessment_complete",
+        "on_hold"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "cab_name",
+    "status"
+  ],
+  "type": "object"
+}
