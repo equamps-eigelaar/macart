@@ -58,6 +58,56 @@
     },
     "notes": {
       "type": "string"
+    },
+    "qty_sheets_received": {
+      "type": "number",
+      "description": "Quantity of sheets received for this job"
+    },
+    "printer_run": {
+      "type": "number",
+      "description": "Printer run count"
+    },
+    "printer_waste": {
+      "type": "number",
+      "description": "Printer waste (sheets)"
+    },
+    "mpact_waste": {
+      "type": "number",
+      "description": "Mpact waste (sheets)"
+    },
+    "die_cut_waste": {
+      "type": "number",
+      "description": "Die cut waste (sheets)"
+    },
+    "glue_waste": {
+      "type": "number",
+      "description": "Glue waste (sheets)"
+    },
+    "screenprint_waste": {
+      "type": "number",
+      "description": "Screenprint waste (sheets)"
+    },
+    "total_run": {
+      "type": "number",
+      "description": "Total run count"
+    },
+    "ink_code_1": {
+      "type": "string"
+    },
+    "ink_batch_1": {
+      "type": "string"
+    },
+    "ink_code_2": {
+      "type": "string"
+    },
+    "ink_batch_2": {
+      "type": "string"
+    },
+    "glue_batch_number": {
+      "type": "string"
+    },
+    "die_number": {
+      "type": "string"
     }
   },
   "required": [
