@@ -22,9 +22,8 @@
     "shift": {
       "type": "string",
       "enum": [
-        "A",
-        "B",
-        "C"
+        "Day",
+        "Night"
       ],
       "description": "Shift"
     },
@@ -34,6 +33,10 @@
     },
     "operator_id": {
       "type": "string"
+    },
+    "machine_name": {
+      "type": "string",
+      "description": "Machine name / identifier"
     },
     "planned_time_min": {
       "type": "number",
@@ -77,6 +80,35 @@
     },
     "notes": {
       "type": "string"
+    },
+    "breakdown_records": {
+      "type": "array",
+      "description": "List of breakdown events logged during the shift",
+      "items": {
+        "type": "object",
+        "properties": {
+          "time_started": {
+            "type": "string",
+            "description": "Time breakdown started (HH:MM)"
+          },
+          "breakdown_code": {
+            "type": "string",
+            "description": "Code from breakdown code list e.g. M1, E2, D1, A1, O1"
+          },
+          "short_description": {
+            "type": "string",
+            "description": "Brief description of what was seen or heard"
+          },
+          "time_fixed": {
+            "type": "string",
+            "description": "Time breakdown was fixed (HH:MM)"
+          },
+          "total_downtime_min": {
+            "type": "number",
+            "description": "Total downtime for this breakdown in minutes"
+          }
+        }
+      }
     }
   },
   "required": [
