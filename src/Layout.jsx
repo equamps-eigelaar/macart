@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope,
+  LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope, ScanLine,
   Ruler, AlertTriangle, ShieldCheck, Leaf, FileText, BookOpen,
   Users, Package, Truck, Layers, Wrench, ChevronDown, Menu, X,
   Settings, BarChart3, Activity, LogOut, TrendingDown
@@ -16,6 +16,7 @@ const navGroups = [
     items: [
       { label: "Dashboard", path: "/", icon: LayoutDashboard },
       { label: "Work Orders", path: "/WorkOrders", icon: ClipboardList },
+      { label: "Job Card Scan", path: "/JobCardScan", icon: ScanLine },
       { label: "Schedule Board", path: "/ProductionSchedule", icon: BarChart3 },
       { label: "Station Log", path: "/StationLog", icon: Activity },
       { label: "OEE Monitor", path: "/OEE", icon: BarChart3 },

@@ -59,37 +59,134 @@
     "notes": {
       "type": "string"
     },
+    "master_number": {
+      "type": "string",
+      "description": "Master No. from job card"
+    },
+    "ac_number": {
+      "type": "string",
+      "description": "A/C No."
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_ref": {
+      "type": "string",
+      "description": "Customer Ref / F number"
+    },
+    "box_size": {
+      "type": "string",
+      "description": "Size field e.g. 670mm x 920mm"
+    },
+    "box_style": {
+      "type": "string"
+    },
+    "die_no": {
+      "type": "string"
+    },
+    "sheet_spec": {
+      "type": "string"
+    },
+    "board_spec": {
+      "type": "string"
+    },
+    "board_area": {
+      "type": "string"
+    },
+    "board_weight": {
+      "type": "string"
+    },
+    "board_spec_detail": {
+      "type": "string"
+    },
+    "finish_glue": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_stitch": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_tape": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_plain": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_1col": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_2col": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_3col": {
+      "type": "boolean",
+      "default": false
+    },
+    "basis_mass": {
+      "type": "string"
+    },
+    "panel_creases": {
+      "type": "string"
+    },
+    "flap_creases": {
+      "type": "string"
+    },
+    "special_instructions": {
+      "type": "string"
+    },
+    "commodity": {
+      "type": "string"
+    },
+    "contact_person": {
+      "type": "string"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "delivery_address": {
+      "type": "string"
+    },
+    "postal_address": {
+      "type": "string"
+    },
+    "vat_btw_number": {
+      "type": "string"
+    },
+    "quote_number": {
+      "type": "string"
+    },
+    "job_card_photo": {
+      "type": "string",
+      "description": "URL of scanned / photographed job card"
+    },
     "qty_sheets_received": {
-      "type": "number",
-      "description": "Quantity of sheets received for this job"
+      "type": "number"
     },
     "printer_run": {
-      "type": "number",
-      "description": "Printer run count"
+      "type": "number"
     },
     "printer_waste": {
-      "type": "number",
-      "description": "Printer waste (sheets)"
+      "type": "number"
     },
     "mpact_waste": {
-      "type": "number",
-      "description": "Mpact waste (sheets)"
+      "type": "number"
     },
     "die_cut_waste": {
-      "type": "number",
-      "description": "Die cut waste (sheets)"
+      "type": "number"
     },
     "glue_waste": {
-      "type": "number",
-      "description": "Glue waste (sheets)"
+      "type": "number"
     },
     "screenprint_waste": {
-      "type": "number",
-      "description": "Screenprint waste (sheets)"
+      "type": "number"
     },
     "total_run": {
-      "type": "number",
-      "description": "Total run count"
+      "type": "number"
     },
     "ink_code_1": {
       "type": "string"
