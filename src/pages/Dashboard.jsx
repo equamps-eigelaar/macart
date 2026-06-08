@@ -6,6 +6,7 @@ import {
   TrendingUp, Package, Activity, CheckCircle2, XCircle, Clock, ArrowRight
 } from "lucide-react";
 import { format, subDays } from "date-fns";
+import DowntimeDashboard from "@/components/dashboard/DowntimeDashboard";
 
 function StatCard({ label, value, sub, icon: Icon, color, to }) {
   const card = (
@@ -131,6 +132,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Downtime Analysis */}
+      <DowntimeDashboard />
 
       {/* Quick links */}
       <div>
