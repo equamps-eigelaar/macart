@@ -45,6 +45,10 @@
     "storage_location": {
       "type": "string"
     },
+    "supplier_label_photo": {
+      "type": "string",
+      "description": "URL of uploaded supplier label / delivery note photo"
+    },
     "notes": {
       "type": "string"
     }
