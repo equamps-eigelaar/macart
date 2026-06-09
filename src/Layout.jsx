@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope, ScanLine,
@@ -7,6 +7,79 @@ import {
   Settings, BarChart3, Activity, LogOut, TrendingDown, GraduationCap
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+
+const MODULES_TOTAL = 6;
+
+const BI_WEEKLY_TIPS = [
+  { week: 1, tip: "Have you added all your Products and Raw Materials? Master data accuracy drives every other metric in the system." },
+  { week: 2, tip: "Try logging your first Station Log shift — watch OEE calculate live and see your first downtime breakdown code appear on the dashboard." },
+  { week: 3, tip: "Raise an NCR for any non-conformance you've spotted, then link it to a CAPA with a root cause and due date." },
+  { week: 4, tip: "Build your HIRA Register for each production station — even logging near-misses is a leading safety indicator." },
+  { week: 5, tip: "Check your Compliance Items page — what's your current audit readiness % for your active ISO standards?" },
+  { week: 6, tip: "Review the OEE Monitor: which station has the lowest availability? Use the Downtime Analysis on the dashboard to find the top breakdown codes." },
+];
+
+function ProgressReminderBanner() {
+  const [dismissed, setDismissed] = useState(false);
+  const [tip, setTip] = useState(null);
+
+  useEffect(() => {
+    try {
+      const completed = JSON.parse(localStorage.getItem("onboarding_completed") || "{}");
+      const reviewedCount = Object.values(completed).filter(Boolean).length;
+      // All modules done — no reminder needed
+      if (reviewedCount >= MODULES_TOTAL) return;
+
+      // Check if dismissed this bi-weekly period
+      const lastDismissed = localStorage.getItem("reminder_dismissed_at");
+      const now = Date.now();
+      const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
+      if (lastDismissed && now - parseInt(lastDismissed) < TWO_WEEKS_MS) return;
+
+      // Pick tip based on current 2-week period since app start (or just cycle)
+      const installDate = parseInt(localStorage.getItem("app_install_date") || String(now));
+      if (!localStorage.getItem("app_install_date")) {
+        localStorage.setItem("app_install_date", String(now));
+      }
+      const weeksSince = Math.floor((now - installDate) / (7 * 24 * 60 * 60 * 1000));
+      const tipIndex = Math.floor(weeksSince / 2) % BI_WEEKLY_TIPS.length;
+      setTip({ ...BI_WEEKLY_TIPS[tipIndex], reviewed: reviewedCount });
+    } catch {}
+  }, []);
+
+  if (!tip || dismissed) return null;
+
+  const handleDismiss = () => {
+    localStorage.setItem("reminder_dismissed_at", String(Date.now()));
+    setDismissed(true);
+  };
+
+  const progressPct = Math.round((tip.reviewed / MODULES_TOTAL) * 100);
+
+  return (
+    <div className="bg-amber-400/10 border-b border-amber-400/20 px-4 md:px-6 py-3 flex flex-wrap items-center gap-3">
+      <GraduationCap className="w-4 h-4 text-amber-400 flex-shrink-0" />
+      <div className="flex-1 min-w-0">
+        <span className="text-xs font-semibold text-amber-400 mr-2">Implementation Reminder</span>
+        <span className="text-xs text-foreground">{tip.tip}</span>
+      </div>
+      <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="w-20 h-1.5 bg-secondary rounded-full overflow-hidden">
+            <div className="h-full bg-amber-400 rounded-full" style={{ width: `${progressPct}%` }} />
+          </div>
+          {tip.reviewed}/{MODULES_TOTAL} reviewed
+        </div>
+        <Link to="/Onboarding" className="text-xs text-amber-400 font-medium hover:underline whitespace-nowrap">
+          Open Guide →
+        </Link>
+        <button onClick={handleDismiss} className="text-muted-foreground hover:text-foreground p-0.5">
+          <X className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 const navGroups = [
   {
@@ -161,6 +234,22 @@ export default function Layout({ children, currentPageName }) {
         </div>
       </div>
 
+      {/* Getting Started pinned link */}
+      <div className="px-3 pt-3 pb-1">
+        <Link
+          to="/Onboarding"
+          onClick={() => setMobileOpen(false)}
+          className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            currentPath === "/Onboarding"
+              ? "bg-primary/15 text-primary"
+              : "bg-amber-400/10 text-amber-400 hover:bg-amber-400/20"
+          }`}
+        >
+          <GraduationCap className="w-4 h-4 flex-shrink-0" />
+          Getting Started Guide
+        </Link>
+      </div>
+
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-1">
         {navGroups.map(g => (
@@ -177,17 +266,6 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Footer */}
       <div className="p-3 border-t border-border space-y-1">
-        <Link
-          to="/Onboarding"
-          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
-            currentPath === "/Onboarding"
-              ? "bg-primary/15 text-primary font-medium"
-              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-          }`}
-        >
-          <GraduationCap className="w-4 h-4" />
-          Getting Started Guide
-        </Link>
         <button
           onClick={() => base44.auth.logout()}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
@@ -236,6 +314,7 @@ export default function Layout({ children, currentPageName }) {
           </div>
         </header>
 
+        <ProgressReminderBanner />
         <main className="flex-1 p-4 md:p-6 max-w-screen-2xl w-full mx-auto">
           {children}
         </main>
