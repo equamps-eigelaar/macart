@@ -58,6 +58,7 @@ import PMSchedulesPage from './pages/PMSchedules';
 // Other
 import FeedbackPage from './pages/Feedback';
 import JobCardScanPage from './pages/JobCardScan';
+import OnboardingPage from './pages/Onboarding';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -144,6 +145,7 @@ const AuthenticatedApp = () => {
       {/* Other */}
       <Route path="/Feedback" element={<LayoutWrapper currentPageName="Feedback"><FeedbackPage /></LayoutWrapper>} />
       <Route path="/JobCardScan" element={<LayoutWrapper currentPageName="JobCardScan"><JobCardScanPage /></LayoutWrapper>} />
+      <Route path="/Onboarding" element={<LayoutWrapper currentPageName="Onboarding"><OnboardingPage /></LayoutWrapper>} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope, ScanLine,
   Ruler, AlertTriangle, ShieldCheck, Leaf, FileText, BookOpen,
   Users, Package, Truck, Layers, Wrench, ChevronDown, Menu, X,
-  Settings, BarChart3, Activity, LogOut, TrendingDown
+  Settings, BarChart3, Activity, LogOut, TrendingDown, GraduationCap
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
@@ -176,7 +176,18 @@ export default function Layout({ children, currentPageName }) {
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-border">
+      <div className="p-3 border-t border-border space-y-1">
+        <Link
+          to="/Onboarding"
+          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
+            currentPath === "/Onboarding"
+              ? "bg-primary/15 text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+          }`}
+        >
+          <GraduationCap className="w-4 h-4" />
+          Getting Started Guide
+        </Link>
         <button
           onClick={() => base44.auth.logout()}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
