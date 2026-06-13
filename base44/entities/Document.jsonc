@@ -1,0 +1,79 @@
+{
+  "name": "Document",
+  "type": "object",
+  "properties": {
+    "doc_number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "doc_type": {
+      "type": "string",
+      "enum": [
+        "policy",
+        "procedure",
+        "work_instruction",
+        "form",
+        "record",
+        "specification",
+        "manual"
+      ],
+      "default": "procedure"
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "review",
+        "approved",
+        "obsolete"
+      ],
+      "default": "draft"
+    },
+    "effective_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string",
+      "enum": [
+        "production",
+        "quality",
+        "maintenance",
+        "warehouse",
+        "hse",
+        "management"
+      ],
+      "default": "production"
+    },
+    "clause_ref": {
+      "type": "string",
+      "description": "Reference to ISO clause e.g. 7.5, 8.4.1"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Uploaded document file URL"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "doc_number",
+    "title",
+    "doc_type",
+    "version"
+  ]
+}

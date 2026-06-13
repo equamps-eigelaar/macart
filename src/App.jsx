@@ -59,6 +59,10 @@ import PMSchedulesPage from './pages/PMSchedules';
 import FeedbackPage from './pages/Feedback';
 import JobCardScanPage from './pages/JobCardScan';
 import OnboardingPage from './pages/Onboarding';
+import InternalAuditsPage from './pages/InternalAudits';
+import DocumentsPage from './pages/Documents';
+import RiskOpportunityPage from './pages/RiskOpportunity';
+import ProcessAuditsPage from './pages/ProcessAudits';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];

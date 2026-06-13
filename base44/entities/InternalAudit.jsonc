@@ -1,0 +1,80 @@
+{
+  "name": "InternalAudit",
+  "type": "object",
+  "properties": {
+    "audit_number": {
+      "type": "string"
+    },
+    "audit_type": {
+      "type": "string",
+      "enum": [
+        "internal",
+        "external",
+        "supplier",
+        "regulatory"
+      ],
+      "default": "internal"
+    },
+    "standard": {
+      "type": "string",
+      "enum": [
+        "ISO 9001",
+        "ISO 14001",
+        "ISO 45001",
+        "FSSC 22000",
+        "ISO 50001",
+        "Integrated"
+      ],
+      "default": "ISO 9001"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "lead_auditor": {
+      "type": "string"
+    },
+    "auditee": {
+      "type": "string"
+    },
+    "planned_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "in_progress",
+        "reporting",
+        "completed",
+        "closed"
+      ],
+      "default": "planned"
+    },
+    "findings_total": {
+      "type": "number",
+      "default": 0
+    },
+    "non_conformities": {
+      "type": "number",
+      "default": 0
+    },
+    "observations": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "audit_number",
+    "audit_type",
+    "standard",
+    "planned_date"
+  ]
+}

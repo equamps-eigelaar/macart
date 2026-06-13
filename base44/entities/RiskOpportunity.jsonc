@@ -1,0 +1,79 @@
+{
+  "name": "RiskOpportunity",
+  "type": "object",
+  "properties": {
+    "ref_number": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "risk",
+        "opportunity"
+      ],
+      "default": "risk"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "quality",
+        "safety",
+        "environmental",
+        "business",
+        "operational",
+        "supply_chain"
+      ],
+      "default": "quality"
+    },
+    "description": {
+      "type": "string"
+    },
+    "likelihood": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 1
+    },
+    "impact": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 1
+    },
+    "risk_score": {
+      "type": "number"
+    },
+    "mitigation": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "identified",
+        "assessed",
+        "treated",
+        "monitored",
+        "closed"
+      ],
+      "default": "identified"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ref_number",
+    "type",
+    "category",
+    "description",
+    "likelihood",
+    "impact"
+  ]
+}

@@ -110,6 +110,7 @@ const navGroups = [
       { label: "In-Process QC", path: "/QualityCheck", icon: Ruler },
       { label: "Calibration", path: "/Calibration", icon: Wrench },
       { label: "Customer Complaints", path: "/CustomerComplaints", icon: Users },
+      { label: "Process Audits", path: "/ProcessAudits", icon: CheckSquare },
     ]
   },
   {
@@ -133,6 +134,9 @@ const navGroups = [
       { label: "Compliance Items", path: "/Compliance", icon: BookOpen },
       { label: "Obligations", path: "/ComplianceObligations", icon: FileText },
       { label: "Training Records", path: "/Training", icon: Users },
+      { label: "Internal Audits", path: "/InternalAudits", icon: CheckSquare },
+      { label: "Document Control", path: "/DocumentControl", icon: FileText },
+      { label: "Risk Register", path: "/RiskOpportunity", icon: AlertTriangle },
     ]
   },
   {

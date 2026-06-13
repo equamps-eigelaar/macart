@@ -1,0 +1,70 @@
+{
+  "name": "ProcessAudit",
+  "type": "object",
+  "properties": {
+    "ref_number": {
+      "type": "string"
+    },
+    "process_name": {
+      "type": "string"
+    },
+    "station": {
+      "type": "string",
+      "enum": [
+        "press",
+        "cut_1",
+        "cut_2",
+        "cut_3",
+        "de_form",
+        "glue_machine",
+        "glue_hand",
+        "warehouse",
+        "office",
+        "general"
+      ]
+    },
+    "procedure_ref": {
+      "type": "string",
+      "description": "Reference to documented procedure"
+    },
+    "audit_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "auditor": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "compliant",
+        "non_compliant",
+        "observation"
+      ],
+      "default": "compliant"
+    },
+    "findings": {
+      "type": "string"
+    },
+    "action_required": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ref_number",
+    "process_name",
+    "audit_date",
+    "result"
+  ]
+}
