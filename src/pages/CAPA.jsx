@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Download } from "lucide-react";
 
 const STATUS_COLORS = { open: "bg-red-500/15 text-red-400", in_progress: "bg-amber-500/15 text-amber-400", verify: "bg-blue-500/15 text-blue-400", closed: "bg-green-500/15 text-green-400", overdue: "bg-rose-500/15 text-rose-400" };
 const empty = { capa_number:"", title:"", type:"corrective", root_cause_method:"5_why", root_cause_description:"", action_description:"", owner:"", due_date:"", status:"open", notes:"" };
+
+function exportCSV(data, filename) {
+  if (!data.length) return;
+  const keys = Object.keys(data[0]);
+  const rows = [keys.join(","), ...data.map(r => keys.map(k => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(","))];
+  const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
 
 export default function CAPATracker() {
   const [capas, setCapas] = useState([]);
@@ -30,14 +40,28 @@ export default function CAPATracker() {
     return ms && mst;
   });
 
+  const overdueCount = capas.filter(c => c.status !== "closed" && c.due_date && c.due_date < new Date().toISOString().slice(0,10)).length;
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <div><h1 className="text-2xl font-bold">CAPA Tracker</h1><p className="text-sm text-muted-foreground mt-0.5">{capas.length} records</p></div>
-        <button onClick={() => { setEditing(null); setForm(empty); setShowForm(true); }}
-          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90">
-          <Plus className="w-4 h-4" /> New CAPA
-        </button>
+        <div>
+          <h1 className="text-2xl font-bold">CAPA Tracker</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {capas.length} records
+            {overdueCount > 0 && <span className="text-red-400 ml-2">· {overdueCount} overdue</span>}
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={() => exportCSV(filtered, "capa-tracker.csv")}
+            className="flex items-center gap-2 border border-border px-3 py-2 rounded-lg text-sm hover:bg-secondary">
+            <Download className="w-4 h-4" /> Export
+          </button>
+          <button onClick={() => { setEditing(null); setForm(empty); setShowForm(true); }}
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90">
+            <Plus className="w-4 h-4" /> New CAPA
+          </button>
+        </div>
       </div>
 
       {showForm && (
@@ -57,7 +81,7 @@ export default function CAPATracker() {
             <div><label className="text-xs text-muted-foreground mb-1 block">Root Cause Method</label>
               <select value={form.root_cause_method} onChange={e => set("root_cause_method", e.target.value)}
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
-                {["5_why","fishbone","fault_tree","other"].map(m => <option key={m} value={m}>{m.replace("_"," ")}</option>)}
+                {["5_why","fishbone","fault_tree","other"].map(m => <option key={m} value={m}>{m.replace(/_/g," ")}</option>)}
               </select></div>
             <div><label className="text-xs text-muted-foreground mb-1 block">Due Date *</label>
               <input type="date" value={form.due_date} onChange={e => set("due_date", e.target.value)}
@@ -65,13 +89,16 @@ export default function CAPATracker() {
             <div><label className="text-xs text-muted-foreground mb-1 block">Status</label>
               <select value={form.status} onChange={e => set("status", e.target.value)}
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
-                {["open","in_progress","verify","closed","overdue"].map(s => <option key={s} value={s}>{s.replace("_"," ")}</option>)}
+                {["open","in_progress","verify","closed","overdue"].map(s => <option key={s} value={s}>{s.replace(/_/g," ")}</option>)}
               </select></div>
             <div className="sm:col-span-2 lg:col-span-3"><label className="text-xs text-muted-foreground mb-1 block">Root Cause Description</label>
               <textarea rows={2} value={form.root_cause_description} onChange={e => set("root_cause_description", e.target.value)}
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary resize-none" /></div>
             <div className="sm:col-span-2 lg:col-span-3"><label className="text-xs text-muted-foreground mb-1 block">Action Description</label>
               <textarea rows={2} value={form.action_description} onChange={e => set("action_description", e.target.value)}
+                className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary resize-none" /></div>
+            <div className="sm:col-span-2 lg:col-span-3"><label className="text-xs text-muted-foreground mb-1 block">Notes</label>
+              <textarea rows={2} value={form.notes || ""} onChange={e => set("notes", e.target.value)}
                 className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary resize-none" /></div>
           </div>
           <div className="flex gap-3 justify-end">
@@ -84,13 +111,13 @@ export default function CAPATracker() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search CAPAs..."
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search CAPAs…"
             className="w-full bg-secondary border border-border rounded-lg pl-9 pr-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary" />
         </div>
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
           className="bg-secondary border border-border rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary">
           <option value="all">All Status</option>
-          {["open","in_progress","verify","closed","overdue"].map(s => <option key={s} value={s}>{s.replace("_"," ")}</option>)}
+          {["open","in_progress","verify","closed","overdue"].map(s => <option key={s} value={s}>{s.replace(/_/g," ")}</option>)}
         </select>
       </div>
 
@@ -104,17 +131,20 @@ export default function CAPATracker() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.length === 0 && <tr><td colSpan={7} className="text-center py-12 text-muted-foreground">No CAPAs found</td></tr>}
-              {filtered.map(c => (
-                <tr key={c.id} className="hover:bg-secondary/40">
-                  <td className="px-4 py-3 font-mono font-medium">{c.capa_number}</td>
-                  <td className="px-4 py-3 max-w-xs truncate">{c.title}</td>
-                  <td className="px-4 py-3 capitalize">{c.type}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{c.owner}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{c.due_date}</td>
-                  <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-md text-xs font-medium ${STATUS_COLORS[c.status]}`}>{c.status?.replace("_"," ")}</span></td>
-                  <td className="px-4 py-3"><button onClick={() => { setEditing(c); setForm({...c}); setShowForm(true); }} className="text-xs text-primary hover:underline">Edit</button></td>
-                </tr>
-              ))}
+              {filtered.map(c => {
+                const isOverdue = c.status !== "closed" && c.due_date && c.due_date < new Date().toISOString().slice(0,10);
+                return (
+                  <tr key={c.id} className={`hover:bg-secondary/40 ${isOverdue ? "bg-red-500/5" : ""}`}>
+                    <td className="px-4 py-3 font-mono font-medium">{c.capa_number}</td>
+                    <td className="px-4 py-3 max-w-xs truncate">{c.title}</td>
+                    <td className="px-4 py-3 capitalize">{c.type}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{c.owner}</td>
+                    <td className={`px-4 py-3 ${isOverdue ? "text-red-400 font-medium" : "text-muted-foreground"}`}>{c.due_date}</td>
+                    <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-md text-xs font-medium ${STATUS_COLORS[c.status]}`}>{c.status?.replace(/_/g," ")}</span></td>
+                    <td className="px-4 py-3"><button onClick={() => { setEditing(c); setForm({...c}); setShowForm(true); }} className="text-xs text-primary hover:underline">Edit</button></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
