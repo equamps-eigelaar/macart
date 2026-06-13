@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
-  Factory, ClipboardList, AlertTriangle, ShieldCheck, Package, Activity, CheckCircle2, XCircle, Clock, ArrowRight
+  Factory, ClipboardList, AlertTriangle, ShieldCheck, Package, Activity, CheckCircle2, XCircle, Clock, ArrowRight, Wrench
 } from "lucide-react";
 import { format } from "date-fns";
 
-function StatCard({ label, value, sub = null, icon: Icon, color, to }) {
+function StatCard({ label, value, sub, icon: Icon, color, to }) {
   const card = (
     <div className={`bg-card border border-border rounded-xl p-5 flex items-start gap-4 hover:border-primary/40 transition-colors ${to ? "cursor-pointer" : ""}`}>
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
@@ -39,13 +39,12 @@ export default function Dashboard() {
     openIncidents: 0, avgOee: null, dueCalibrations: 0,
     recentNCRs: [], recentCAPAs: []
   });
-  const [loading, setLoading] = useState(true);
-  const [setupDismissed, setSetupDismissed] = useState(() => !!localStorage.getItem("macart_setup_done"));
+  const [overdue, setOverdue] = useState({ capas: [], pms: [], calibrations: [] });
 
   useEffect(() => {
     async function load() {
       const today = format(new Date(), "yyyy-MM-dd");
-      const [wos, ncrs, capas, incidents, , instruments, logs] = await Promise.all([
+      const [wos, ncrs, capas, incidents, calEvents, instruments, logs, allCapas, pms] = await Promise.all([
         base44.entities.WorkOrder.filter({ status: "in_progress" }),
         base44.entities.NCR.filter({ status: "open" }),
         base44.entities.CAPA.filter({ status: "open" }),
@@ -53,37 +52,45 @@ export default function Dashboard() {
         base44.entities.CalibrationEvent.list("-calibration_date", 50),
         base44.entities.Instrument.filter({ status: "in_service" }),
         base44.entities.StationLog.filter({ log_date: today }),
+        base44.entities.CAPA.list("-due_date", 200),
+        base44.entities.PreventiveMaintenance.filter({ is_active: true }),
       ]);
       const avgOee = logs.length
         ? logs.reduce((s, l) => s + (l.oee || 0), 0) / logs.length
         : null;
+
+      const overdueCAPAs = allCapas.filter(
+        c => c.status !== "closed" && c.due_date && c.due_date < today
+      );
+      const overduePMs = pms.filter(
+        pm => pm.next_due && pm.next_due < today
+      );
+      const dueInstruments = instruments.filter(
+        i => i.next_calibration_date && i.next_calibration_date <= today
+      );
+
       setSummary({
         openWOs: wos.length,
         openNCRs: ncrs.length,
         openCAPAs: capas.length,
         openIncidents: incidents.length,
         avgOee,
-        dueCalibrations: instruments.filter(i => i.next_calibration_date && i.next_calibration_date <= today).length,
+        dueCalibrations: dueInstruments.length,
         recentNCRs: ncrs.slice(0, 4),
         recentCAPAs: capas.slice(0, 4),
       });
-      setLoading(false);
+      setOverdue({
+        capas: overdueCAPAs,
+        pms: overduePMs,
+        calibrations: dueInstruments,
+      });
     }
     load();
   }, []);
 
   const statusColor = { open: "text-red-400", in_progress: "text-amber-400", verify: "text-blue-400", closed: "text-green-400" };
 
-  const isFirstRun = !loading && !setupDismissed &&
-    summary.openWOs === 0 && summary.openNCRs === 0 && summary.openCAPAs === 0 &&
-    summary.openIncidents === 0 && summary.dueCalibrations === 0 && summary.avgOee === null;
-
-  const setupSteps = [
-    { label: "Add Suppliers", sub: "Who you buy board and ink from", to: "/Suppliers", done: false },
-    { label: "Add Raw Materials", sub: "Board grades, inks, glues", to: "/RawMaterials", done: false },
-    { label: "Add Products", sub: "Box and divider specs", to: "/Products", done: false },
-    { label: "Add Customers", sub: "Then create their first order", to: "/Customers", done: false },
-  ];
+  const totalOverdue = overdue.capas.length + overdue.pms.length + overdue.calibrations.length;
 
   return (
     <div className="space-y-6">
@@ -91,37 +98,6 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold text-foreground">Operations Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">{format(new Date(), "EEEE, d MMMM yyyy")} · MacArt Manufacturing</p>
       </div>
-
-      {/* First-run setup guide */}
-      {isFirstRun && (
-        <div className="bg-card border border-primary/30 rounded-xl p-5">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div>
-              <h2 className="font-semibold text-foreground">Get MacArt set up</h2>
-              <p className="text-sm text-muted-foreground mt-0.5">Four things to add before production tracking makes sense — takes about 10 minutes.</p>
-            </div>
-            <button
-              onClick={() => { setSetupDismissed(true); localStorage.setItem("macart_setup_done", "1"); }}
-              className="text-xs text-muted-foreground hover:text-foreground flex-shrink-0 mt-0.5"
-            >
-              Dismiss
-            </button>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {setupSteps.map((step, i) => (
-              <Link key={step.to} to={step.to}
-                className="bg-secondary border border-border rounded-xl p-4 hover:border-primary/40 transition-colors block">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="w-5 h-5 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
-                  <span className="text-sm font-medium">{step.label}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{step.sub}</p>
-              </Link>
-            ))}
-          </div>
-          <p className="text-xs text-muted-foreground mt-3">Then: Customer Orders → Work Orders → Station Log → production is live.</p>
-        </div>
-      )}
 
       {/* KPI row */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -132,6 +108,52 @@ export default function Dashboard() {
         <StatCard label="Due Calibrations" value={summary.dueCalibrations} icon={Factory} color="bg-purple-400/10 text-purple-400" to="/Calibration" />
         <OEEGauge value={summary.avgOee} />
       </div>
+
+      {/* Overdue Actions */}
+      {totalOverdue > 0 && (
+        <div className="bg-card border border-red-500/30 rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <h2 className="font-semibold text-foreground">Overdue Actions</h2>
+            <span className="ml-1 px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 text-xs font-bold">{totalOverdue}</span>
+          </div>
+          <div className="divide-y divide-border">
+            {overdue.capas.map(c => (
+              <Link key={c.id} to="/CAPA" className="px-5 py-3 flex items-center gap-3 hover:bg-secondary/40 transition-colors">
+                <span className="flex-shrink-0 px-2 py-0.5 rounded text-xs font-semibold bg-red-500/15 text-red-400">CAPA</span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium truncate">{c.capa_number}{c.title ? ` — ${c.title}` : ""}</div>
+                  <div className="text-xs text-muted-foreground">Owner: {c.owner || "—"}</div>
+                </div>
+                <span className="text-xs text-red-400 font-medium flex-shrink-0">Due {c.due_date}</span>
+              </Link>
+            ))}
+            {overdue.pms.map(pm => (
+              <Link key={pm.id} to="/PMSchedule" className="px-5 py-3 flex items-center gap-3 hover:bg-secondary/40 transition-colors">
+                <span className="flex-shrink-0 px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/15 text-amber-400">PM</span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium truncate flex items-center gap-1.5">
+                    <Wrench className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                    {pm.task_name || pm.description || pm.id}
+                  </div>
+                  <div className="text-xs text-muted-foreground">{pm.equipment || "—"}</div>
+                </div>
+                <span className="text-xs text-amber-400 font-medium flex-shrink-0">Due {pm.next_due}</span>
+              </Link>
+            ))}
+            {overdue.calibrations.map(inst => (
+              <Link key={inst.id} to="/Calibration" className="px-5 py-3 flex items-center gap-3 hover:bg-secondary/40 transition-colors">
+                <span className="flex-shrink-0 px-2 py-0.5 rounded text-xs font-semibold bg-purple-500/15 text-purple-400">CAL</span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium truncate">{inst.instrument_name || inst.name || inst.id}</div>
+                  <div className="text-xs text-muted-foreground">{inst.instrument_id || inst.serial_number || "—"}</div>
+                </div>
+                <span className="text-xs text-purple-400 font-medium flex-shrink-0">Due {inst.next_calibration_date}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Open NCRs & CAPAs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -64,10 +64,10 @@ const navGroups = [
     icon: BookOpen,
     color: "text-purple-400",
     items: [
+      { label: "Standards", path: "/Standards", icon: BookOpen },
       { label: "Compliance Items", path: "/Compliance", icon: BookOpen },
       { label: "Obligations", path: "/ComplianceObligations", icon: FileText },
       { label: "Training Records", path: "/Training", icon: Users },
-      { label: "Standards", path: "/Standards", icon: BookOpen },
       { label: "FSSC 22000", path: "/FSSC22000", icon: ShieldCheck },
       { label: "CAB Correspondence", path: "/CABCorrespondence", icon: Building2 },
     ]
@@ -77,6 +77,7 @@ const navGroups = [
     icon: Settings,
     color: "text-slate-400",
     items: [
+      { label: "Bill of Materials", path: "/BOM", icon: Layers },
       { label: "Products", path: "/Products", icon: Package },
       { label: "Raw Materials", path: "/RawMaterials", icon: Layers },
       { label: "RM Batches", path: "/RMBatches", icon: Layers },

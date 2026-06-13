@@ -45,6 +45,7 @@ import PMSchedulePage from './pages/PMSchedule';
 import FSSC22000Page from './pages/FSSC22000';
 import CABCorrespondencePage from './pages/CABCorrespondence';
 import StandardsPage from './pages/Standards';
+import BOMPage from './pages/BOM';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -57,7 +58,6 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -66,18 +66,15 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
       navigateToLogin();
       return null;
     }
   }
 
-  // Render the main app
   return (
     <Routes>
       <Route path="/" element={
@@ -133,6 +130,7 @@ const AuthenticatedApp = () => {
       <Route path="/FSSC22000" element={<LayoutWrapper currentPageName="FSSC22000"><FSSC22000Page /></LayoutWrapper>} />
       <Route path="/CABCorrespondence" element={<LayoutWrapper currentPageName="CABCorrespondence"><CABCorrespondencePage /></LayoutWrapper>} />
       <Route path="/Standards" element={<LayoutWrapper currentPageName="Standards"><StandardsPage /></LayoutWrapper>} />
+      <Route path="/BOM" element={<LayoutWrapper currentPageName="BOM"><BOMPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
@@ -140,7 +138,6 @@ const AuthenticatedApp = () => {
 
 
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
