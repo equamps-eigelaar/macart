@@ -151,6 +151,12 @@ const AuthenticatedApp = () => {
       <Route path="/JobCardScan" element={<LayoutWrapper currentPageName="JobCardScan"><JobCardScanPage /></LayoutWrapper>} />
       <Route path="/Onboarding" element={<LayoutWrapper currentPageName="Onboarding"><OnboardingPage /></LayoutWrapper>} />
 
+      {/* QMS Modules */}
+      <Route path="/InternalAudits" element={<LayoutWrapper currentPageName="InternalAudits"><InternalAuditsPage /></LayoutWrapper>} />
+      <Route path="/Documents" element={<LayoutWrapper currentPageName="Documents"><DocumentsPage /></LayoutWrapper>} />
+      <Route path="/RiskOpportunity" element={<LayoutWrapper currentPageName="RiskOpportunity"><RiskOpportunityPage /></LayoutWrapper>} />
+      <Route path="/ProcessAudits" element={<LayoutWrapper currentPageName="ProcessAudits"><ProcessAuditsPage /></LayoutWrapper>} />
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
