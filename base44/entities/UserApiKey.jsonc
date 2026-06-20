@@ -1,0 +1,10 @@
+{
+  "name": "UserApiKey",
+  "properties": {
+    "user_id":         { "type": "string",  "required": true },
+    "openai_api_key":  { "type": "string",  "required": true },
+    "key_label":       { "type": "string",  "default": "My OpenAI Key" },
+    "test_status":     { "type": "string",  "enum": ["untested", "valid", "invalid"], "default": "untested" },
+    "last_tested_at":  { "type": "string" }
+  }
+}

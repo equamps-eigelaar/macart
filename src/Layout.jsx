@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Factory, ClipboardList, CheckSquare, Microscope, ScanLine,
   Ruler, AlertTriangle, ShieldCheck, Leaf, FileText, BookOpen,
   Users, Package, Truck, Layers, Wrench, ChevronDown, Menu, X,
-  Settings, BarChart3, Activity, LogOut, TrendingDown, GraduationCap
+  Settings, BarChart3, Activity, LogOut, TrendingDown, GraduationCap, BrainCircuit
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
@@ -27,16 +27,13 @@ function ProgressReminderBanner() {
     try {
       const completed = JSON.parse(localStorage.getItem("onboarding_completed") || "{}");
       const reviewedCount = Object.values(completed).filter(Boolean).length;
-      // All modules done — no reminder needed
       if (reviewedCount >= MODULES_TOTAL) return;
 
-      // Check if dismissed this bi-weekly period
       const lastDismissed = localStorage.getItem("reminder_dismissed_at");
       const now = Date.now();
       const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
       if (lastDismissed && now - parseInt(lastDismissed) < TWO_WEEKS_MS) return;
 
-      // Pick tip based on current 2-week period since app start (or just cycle)
       const installDate = parseInt(localStorage.getItem("app_install_date") || String(now));
       if (!localStorage.getItem("app_install_date")) {
         localStorage.setItem("app_install_date", String(now));
@@ -211,10 +208,6 @@ export default function Layout({ children, currentPageName }) {
   const currentPath = location.pathname;
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const defaultOpen = navGroups.reduce((acc, g) => {
-    acc[g.label] = g.items.some(i => i.path === currentPath);
-    return acc;
-  }, {});
   const [openGroups, setOpenGroups] = useState(() => {
     const init = {};
     navGroups.forEach(g => { init[g.label] = g.items.some(i => i.path === currentPath) || g.label === "Production"; });
@@ -270,6 +263,18 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Footer */}
       <div className="p-3 border-t border-border space-y-1">
+        <Link
+          to="/AISettings"
+          onClick={() => setMobileOpen(false)}
+          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
+            currentPath === "/AISettings"
+              ? "bg-primary/15 text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+          }`}
+        >
+          <BrainCircuit className="w-4 h-4" />
+          AI Settings
+        </Link>
         <button
           onClick={() => base44.auth.logout()}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
