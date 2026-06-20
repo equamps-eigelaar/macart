@@ -63,6 +63,7 @@ import InternalAuditsPage from './pages/InternalAudits';
 import DocumentsPage from './pages/Documents';
 import RiskOpportunityPage from './pages/RiskOpportunity';
 import ProcessAuditsPage from './pages/ProcessAudits';
+import AISettingsPage from './pages/AISettings';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -156,6 +157,9 @@ const AuthenticatedApp = () => {
       <Route path="/Documents" element={<LayoutWrapper currentPageName="Documents"><DocumentsPage /></LayoutWrapper>} />
       <Route path="/RiskOpportunity" element={<LayoutWrapper currentPageName="RiskOpportunity"><RiskOpportunityPage /></LayoutWrapper>} />
       <Route path="/ProcessAudits" element={<LayoutWrapper currentPageName="ProcessAudits"><ProcessAuditsPage /></LayoutWrapper>} />
+
+      {/* Settings */}
+      <Route path="/AISettings" element={<LayoutWrapper currentPageName="AISettings"><AISettingsPage /></LayoutWrapper>} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>
